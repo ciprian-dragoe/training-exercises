@@ -1,6 +1,12 @@
 from flask import Flask, render_template, url_for, request, redirect
 app = Flask('dom-manipulation')
-from os import path, listdir
+from os import path, listdir, walk
+
+
+@app.route('/')
+def get_index():
+    max_number_exercises = get_max_number_exercises()
+    return render_template("index.html", max_number_exercises=max_number_exercises)
 
 
 @app.route('/exercises/<exercise_number>/<file_name>')
@@ -10,6 +16,11 @@ def getExercise(exercise_number, file_name):
         return render_template(f"{file_name}-{exercise_number}.html", file_name=file_name, exercise_number=exercise_number)
     except:
         return f"Could not create template with name : <h1>{file_name}</h1>"
+
+
+def get_max_number_exercises():
+    for base, dirs, files in walk('./exercises'):
+        return len(dirs)
 
 
 def create_user_files(file_name, exercise_number):
@@ -43,7 +54,7 @@ def get_file_path(template, file_name, exercise_number):
 
 
 def main():
-    app.run()
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
