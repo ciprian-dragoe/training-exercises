@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+textarea {
+    width: 599px;
+    height: 200px;
+    padding: 0;
+    border: 1px solid black;
+    margin: 5px 0;
+}
+
