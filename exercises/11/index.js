@@ -11,7 +11,7 @@ textArea.addEventListener("input", (e) => {
             uppercase: true,
           });
         textArea.value = formattedSql
-    }, 1500)
+    }, 1000)
 })
 
 async function executeQuery() {
@@ -20,10 +20,23 @@ async function executeQuery() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: textArea.value})
+        body: JSON.stringify({
+            query: textArea.value,
+            user: document.body.dataset.user,
+            exerciseNumber: document.body.dataset.exerciseNumber,
+        })
     })
     const data = await response.json()
-    buildTable("query-result", data)
+    response.status === 200 ? buildTable("query-result", data) : writeError(data, "query-result")
+}
+
+function writeError(errorMessage, placementId) {
+    const reportingZone = document.getElementById(placementId)
+    reportingZone.innerHTML = `
+    <div class="error">
+        ${errorMessage}
+    </div>
+`
 }
 
 function generateHtmlTableHeaders(headers) {
@@ -49,7 +62,7 @@ function generateHtmlTableBody(items) {
 function buildTable(placementId, tableData) {
     const tableHeaders = Object.keys(tableData[0])
     const table = document.getElementById(placementId)
-    table.innerHTML += `
+    table.innerHTML = `
 <table class="table table-striped table-hover">
     <thead>
         ${generateHtmlTableHeaders(tableHeaders)}

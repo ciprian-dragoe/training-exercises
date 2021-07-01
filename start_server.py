@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from file_generator import get_max_number_exercises, create_user_files
+from managers.file import get_max_number_exercises, create_user_files, write_sql_query
 from dotenv import load_dotenv
-from storage.database import execute_select
+from managers.database import execute_select
 
 
 app = Flask('dom-manipulation')
@@ -28,10 +28,11 @@ def getExercise(exercise_number, file_name):
 @app.route('/sql/execute', methods=["POST"])
 def run_sql():
     try:
+        write_sql_query(request.json["user"], request.json["exerciseNumber"], request.json["query"])
         query_result = execute_select(request.json["query"])
         return jsonify(query_result)
     except Exception as e:
-        return f"Could not run sql code"
+        return jsonify(e.args[0]), 203
 
 
 def main():

@@ -34,3 +34,9 @@ def get_file_path(template, file_name, exercise_number):
         return f"static/js/{file_name}-{exercise_number}.js"
     if extension == "css":
         return f"static/style/{file_name}-{exercise_number}.css"
+
+
+def write_sql_query(user, exercise_number, query):
+    file_path = f"static/sql/{user}-{exercise_number}.sql"
+    with open(file_path, "w") as file:
+        file.write(query)
