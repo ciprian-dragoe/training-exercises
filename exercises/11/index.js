@@ -14,6 +14,16 @@ textArea.addEventListener("input", (e) => {
     }, 1500)
 })
 
-document.getElementById("run-query-button").addEventListener("click", () => {
-    console.log(textArea.value)
-})
+async function executeQuery() {
+    const response = await fetch("/sql/execute", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query: textArea.value})
+    })
+    const data = await response.json()
+    console.log(data)
+}
+
+document.getElementById("run-query-button").addEventListener("click", executeQuery)
