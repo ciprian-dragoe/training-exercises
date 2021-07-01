@@ -12,3 +12,11 @@ textarea {
     margin: 5px 0;
 }
 
+#query-result {
+    display: flex;
+    flex-direction: row;
+}
+
+table {
+    margin: 0 5px;
+}
