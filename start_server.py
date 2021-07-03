@@ -28,7 +28,8 @@ def getExercise(exercise_number, file_name):
 @app.route('/sql/execute', methods=["POST"])
 def run_sql():
     try:
-        write_sql_query(request.json["user"], request.json["exerciseNumber"], request.json["query"])
+        if request.json.get("user") and request.json.get("exerciseNumber"):
+            write_sql_query(request.json["user"], request.json["exerciseNumber"], request.json["query"])
         query_result = execute_select(request.json["query"])
         return jsonify(query_result)
     except Exception as e:

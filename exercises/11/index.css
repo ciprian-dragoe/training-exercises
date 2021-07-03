@@ -2,6 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 5px
 }
 
 textarea {
@@ -9,13 +10,19 @@ textarea {
     height: 200px;
     padding: 0;
     border: 1px solid black;
-    margin: 5px 0;
 }
 
 #query-result {
     margin-top: 30px;
     display: flex;
     flex-direction: row;
+}
+
+#initial-data {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
 }
 
 table {

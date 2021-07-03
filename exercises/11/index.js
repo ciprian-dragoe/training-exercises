@@ -2,6 +2,7 @@ console.log(11)
 let timerID
 const textArea = document.getElementById("sql")
 
+
 textArea.addEventListener("input", (e) => {
     timerID && clearTimeout(timerID)
 
@@ -14,29 +15,34 @@ textArea.addEventListener("input", (e) => {
     }, 1000)
 })
 
-async function executeQuery() {
-    const response = await fetch("/sql/execute", {
+async function getPostResult(data) {
+    return await fetch("/sql/execute", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        body: JSON.stringify(data)
+    })
+}
+
+async function executeQuery() {
+    const response = await getPostResult({
             query: textArea.value,
             user: document.body.dataset.user,
             exerciseNumber: document.body.dataset.exerciseNumber,
         })
-    })
     const data = await response.json()
-    response.status === 200 ? buildTable("query-result", data) : writeError(data, "query-result")
+    if (response.status === 200) {
+        printHtmlElement("query-result", buildTable(data))
+    } else {
+        printHtmlElement("query-result", buildErrorMessage(data))
+    }
 }
 
-function writeError(errorMessage, placementId) {
-    const reportingZone = document.getElementById(placementId)
-    reportingZone.innerHTML = `
-    <div class="error">
+function buildErrorMessage(errorMessage) {
+    return `<div class="error">
         ${errorMessage}
-    </div>
-`
+    </div>`
 }
 
 function generateHtmlTableHeaders(headers) {
@@ -59,10 +65,17 @@ function generateHtmlTableBody(items) {
     return result
 }
 
-function buildTable(placementId, tableData) {
+function printHtmlElement(placementId, htmlElement) {
+    document.getElementById(placementId).innerHTML = htmlElement
+}
+
+function addHtmlElement(placementId, htmlElement) {
+    document.getElementById(placementId).innerHTML += htmlElement
+}
+
+function buildTable(tableData) {
     const tableHeaders = Object.keys(tableData[0])
-    const table = document.getElementById(placementId)
-    table.innerHTML = `
+    return `
 <table class="table table-striped table-hover">
     <thead>
         ${generateHtmlTableHeaders(tableHeaders)}
@@ -74,4 +87,15 @@ function buildTable(placementId, tableData) {
     `
 }
 
+async function displayDefaultTables() {
+    let response = await getPostResult({ query: "select * from clients" })
+    const clients = await response.json()
+    addHtmlElement("initial-data", buildTable(clients))
+    response = await getPostResult({ query: "select * from products" })
+    const products = await response.json()
+    addHtmlElement("initial-data", buildTable(products))
+}
+
+
 document.getElementById("run-query-button").addEventListener("click", executeQuery)
+displayDefaultTables()
