@@ -25,10 +25,18 @@ textarea {
     align-items: start;
 }
 
-table {
-    margin: 0 5px;
+.table {
+    padding: 5px 5px
 }
 
 .error {
     color: red;
+}
+
+.red {
+    background: red!important;
+}
+
+.green {
+    background: green!important;
 }

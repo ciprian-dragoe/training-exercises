@@ -1,4 +1,6 @@
 console.log(11)
+const user = document.body.dataset.user
+const exerciseNumber = document.body.dataset.exerciseNumber
 let timerID
 const textArea = document.getElementById("sql")
 
@@ -12,11 +14,11 @@ textArea.addEventListener("input", (e) => {
             uppercase: true,
           });
         textArea.value = formattedSql
-    }, 1000)
+    }, 1500)
 })
 
 async function getPostResult(data) {
-    return await fetch("/sql/execute", {
+    return await fetch("/api/sql/execute", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -28,12 +30,12 @@ async function getPostResult(data) {
 async function executeQuery() {
     const response = await getPostResult({
             query: textArea.value,
-            user: document.body.dataset.user,
-            exerciseNumber: document.body.dataset.exerciseNumber,
+            user: user,
+            exerciseNumber: exerciseNumber,
         })
     const data = await response.json()
     if (response.status === 200) {
-        printHtmlElement("query-result", buildTable(data))
+        printHtmlElement("query-result", buildTable(data, "MyQuery"))
     } else {
         printHtmlElement("query-result", buildErrorMessage(data))
     }
@@ -73,29 +75,54 @@ function addHtmlElement(placementId, htmlElement) {
     document.getElementById(placementId).innerHTML += htmlElement
 }
 
-function buildTable(tableData) {
+function buildTable(tableData, tableName) {
     const tableHeaders = Object.keys(tableData[0])
     return `
-<table class="table table-striped table-hover">
-    <thead>
-        ${generateHtmlTableHeaders(tableHeaders)}
-    </thead>
-    <tbody>
-        ${generateHtmlTableBody(tableData)}
-    </tbody>
-</table>
+<div class="table">
+    <h4 class="text-center">${tableName}</h4>
+    <table class="table table-striped table-hover">
+        <thead>
+            ${generateHtmlTableHeaders(tableHeaders)}
+        </thead>
+        <tbody>
+            ${generateHtmlTableBody(tableData)}
+        </tbody>
+    </table>
+</div>
     `
 }
 
-async function displayDefaultTables() {
-    let response = await getPostResult({ query: "select * from clients" })
-    const clients = await response.json()
-    addHtmlElement("initial-data", buildTable(clients))
-    response = await getPostResult({ query: "select * from products" })
-    const products = await response.json()
-    addHtmlElement("initial-data", buildTable(products))
+async function appendQueryTable(placementId, sqlCode, tableName) {
+    let response = await getPostResult({ query: sqlCode })
+    const data = await response.json()
+    addHtmlElement(placementId, buildTable(data, tableName))
 }
 
+async function displayDefaultTables() {
+    await appendQueryTable("initial-data", "select * from addresses", 'Addresses')
+    await appendQueryTable("initial-data", "select * from clients", 'Clients')
+    await appendQueryTable("initial-data", "select * from products", 'Products')
+    await appendQueryTable("initial-data", "select * from products_price_history", 'Products Price History')
+    addTableEvents()
+    const response = await fetch(`/api/sql/${user}/${exerciseNumber}`)
+    if (response.status === 200) {
+        const data = await response.json()
+        textArea.value = data.query
+        data && executeQuery()
+    }
+}
+
+function addTableEvents() {
+    document.querySelectorAll("td").forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.target.classList.toggle("red")
+        })
+        item.addEventListener("contextmenu", (e) => {
+            e.preventDefault()
+            e.target.classList.toggle("green")
+        })
+    })
+}
 
 document.getElementById("run-query-button").addEventListener("click", executeQuery)
 displayDefaultTables()
