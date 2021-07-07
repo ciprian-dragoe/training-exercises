@@ -1,4 +1,4 @@
-console.log("show all the products the clients have bought")
+console.log("show the average historical price for the 'phone' product ")
 const user = document.body.dataset.user
 const exerciseNumber = document.body.dataset.exerciseNumber
 let timerID

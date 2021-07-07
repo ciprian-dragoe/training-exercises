@@ -1,4 +1,4 @@
-console.log("show all the products the clients have bought")
+console.log("show all the clients who do not have an address")
 const user = document.body.dataset.user
 const exerciseNumber = document.body.dataset.exerciseNumber
 let timerID

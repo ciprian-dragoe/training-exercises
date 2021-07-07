@@ -7,16 +7,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/style/{{file_name}}-{{exercise_number}}.css">
   <link rel="shortcut icon" href="/static/images/favicon.jpg" type="image/x-icon">
+  <script>
+    let start = new Date()
+    function getElapsedTime() {
+      let difference = new Date() - start
+      let remainder = Math.floor(difference / 10)
+      let amount = 1
+      while (remainder > 0) {
+        remainder = Math.floor(remainder / 10)
+        amount++
+      }
+      let result = difference.toString()
+      for (let i = amount; i < 8; i++) {
+        result = " " + result
+      }
+      return result + "ms -"
+    }
+  </script>
   <script src="/static/js/{{file_name}}-{{exercise_number}}.js" defer></script>
-  <script type="text/javascript" src="https://unpkg.com/sql-formatter@latest/dist/sql-formatter.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>Exercise 11</title>
+  <title>Exercise 12</title>
 </head>
 
-<body data-user="{{ file_name }}" data-exercise-number="{{ exercise_number }}">
-  <textarea id="sql" placeholder="write your sql code here"></textarea>
-  <button id="run-query-button" style="width: 600px;">Run SQL Query</button>
-  <div id="initial-data"></div>
-  <div id="query-result"></div>
+<body>
+  <h1>Open the developer tools console</h1>
 </body>
+
 </html>
