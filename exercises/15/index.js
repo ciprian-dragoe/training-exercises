@@ -78,7 +78,7 @@ function addHtmlElement(placementId, htmlElement) {
 
 function buildTable(tableData, tableName) {
     if (!tableData.length) {
-        return ''
+        return '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Querry returned no elemnts'
     }
     const tableHeaders = Object.keys(tableData[0])
     return `
