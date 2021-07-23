@@ -1,21 +1,18 @@
-console.log("show all the products the clients have bought")
 const user = document.body.dataset.user
 const exerciseNumber = document.body.dataset.exerciseNumber
 let timerID
 const textArea = document.getElementById("sql")
 
+document.querySelector('h1').innerHTML = ""
 
-textArea.addEventListener("input", (e) => {
-    timerID && clearTimeout(timerID)
-
-    timerID = setTimeout(() => {
-        const formattedSql = sqlFormatter.format(textArea.value, {
+textArea.addEventListener("keyup", (event) => {
+  if (event.keyCode === 13) {
+    const formattedSql = sqlFormatter.format(textArea.value, {
             language: "postgresql",
             uppercase: true,
           });
-        textArea.value = formattedSql
-    }, 1500)
-})
+    textArea.value = formattedSql + "\n"
+  }})
 
 async function getPostResult(data) {
     return await fetch("/api/sql/execute", {
@@ -28,6 +25,11 @@ async function getPostResult(data) {
 }
 
 async function executeQuery() {
+    const formattedSql = sqlFormatter.format(textArea.value, {
+            language: "postgresql",
+            uppercase: true,
+          });
+    textArea.value = formattedSql
     const response = await getPostResult({
             query: textArea.value,
             user: user,
@@ -76,6 +78,9 @@ function addHtmlElement(placementId, htmlElement) {
 }
 
 function buildTable(tableData, tableName) {
+    if (!tableData.length) {
+        return ''
+    }
     const tableHeaders = Object.keys(tableData[0])
     return `
 <div class="table">
@@ -115,13 +120,21 @@ async function displayDefaultTables() {
 function addTableEvents() {
     document.querySelectorAll("td").forEach(item => {
         item.addEventListener("click", (e) => {
-            e.target.classList.toggle("red")
+            toggleClass(e, "red")
         })
         item.addEventListener("contextmenu", (e) => {
             e.preventDefault()
-            e.target.classList.toggle("green")
+            toggleClass(e, "green")
         })
     })
+}
+
+function toggleClass(domItem, className) {
+    if (domItem.target.classList.length) {
+        domItem.target.className.includes(className) ? domItem.target.className = "" : domItem.target.className = className
+    } else {
+        domItem.target.className = className
+    }
 }
 
 document.getElementById("run-query-button").addEventListener("click", executeQuery)

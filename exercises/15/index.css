@@ -5,11 +5,14 @@ body {
     padding: 5px
 }
 
-textarea {
-    width: 599px;
-    height: 200px;
-    padding: 0;
-    border: 1px solid black;
+#action-area {
+    display: flex;
+    flex-direction: row;
+}
+
+#query-area {
+    display: flex;
+    flex-direction: column;
 }
 
 #query-result {
@@ -24,6 +27,14 @@ textarea {
     flex-direction: row;
     align-items: start;
 }
+
+textarea {
+    width: 399px;
+    height: 220px;
+    padding: 0;
+    border: 1px solid black;
+}
+
 
 .table {
     padding: 5px 5px
