@@ -1,16 +1,22 @@
-document.getElementsByTagName("button")[0].addEventListener("click", () => {
-  const name = document.getElementsByName("name")[0].value
-  const exerciseNumber = document.getElementsByName("exercise-number")[0].value
-  const maxNumberExercise = parseInt(document.querySelector("[max]").max)
-  if (!name) {
-    alert("Name must not be empty!")
-    return
-  }
-  
-  if (!parseInt(exerciseNumber) || parseInt(exerciseNumber) < 1 || parseInt(exerciseNumber) > maxNumberExercise) {
-    alert("Number is out of range!")
-    return
-  }
+document.querySelector("form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = e.target.name.value.toLowerCase().replace(/\s+/gim, "-");
+    const number = parseInt(e.target.number.value, 10);
+    const maxNumberExercise = parseInt(document.querySelector("[max]").max, 10);
 
-  window.location.href = `http://127.0.0.1:5000/exercises/${exerciseNumber}/${name}`
-})
+    if (!name) {
+        alert("Name must not be empty!");
+        return;
+    }
+
+    if (
+        !parseInt(number) ||
+        parseInt(number) < 1 ||
+        parseInt(number) > maxNumberExercise
+    ) {
+        alert("Number is out of range!");
+        return;
+    }
+
+    window.location.href = `http://127.0.0.1:5000/exercises/${number}/${name}`;
+});
