@@ -13,14 +13,18 @@
 
     <body>
         <form>
-            <input name="name" placeholder="enter your name" style="width: 200px" />
             <input
-            type="number"
-            min="1"
-            max="{{max_number_exercises}}"
-            name="exercise-number"
-            placeholder="enter the exercise number"
-            style="width: 200px"
+                name="name"
+                placeholder="enter your name"
+                style="width: 200px"
+            />
+            <input
+                type="number"
+                min="1"
+                max="{{max_number_exercises}}"
+                name="number"
+                placeholder="enter the exercise number"
+                style="width: 200px"
             />
             <button type="submit">Go to exercise</button>
         </form>
