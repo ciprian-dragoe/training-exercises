@@ -23,24 +23,24 @@ def get_index():
 
 @app.route("/exercises/<exercise_number>/<file_name>")
 def getExercise(exercise_number, file_name):
-    try:
-        create_user_files(file_name, exercise_number)
-        return render_template(
-            f"{file_name}-{exercise_number}.html",
-            file_name=file_name,
-            exercise_number=exercise_number,
-        )
-    except:
-        return f"Could not create template with name : <h1>{file_name}</h1>"
+    # try:
+    create_user_files(file_name, exercise_number)
+    return render_template(
+        f"{file_name}-{exercise_number}.html",
+        file_name=file_name,
+        exercise_number=exercise_number,
+    )
+    # except:
+    #     return f"Could not create template with name : <h1>{file_name}</h1>"
 
 
 @app.route("/api/sql/execute", methods=["POST"])
 def run_sql():
     try:
-        if request.json.get("user") and request.json.get("exerciseNumber"):
+        if request.json.get("user") and request.json.get("number"):
             write_sql_query(
                 request.json["user"],
-                request.json["exerciseNumber"],
+                request.json["number"],
                 request.json["query"],
             )
         query_result = execute_select(request.json["query"])
