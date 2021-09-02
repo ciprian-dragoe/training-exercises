@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, jsonify
-from flask.helpers import url_for
+from flask import Flask, render_template, request, jsonify, url_for
+
 from managers.file import (
     get_max_number_exercises,
     create_user_files,
@@ -23,6 +23,7 @@ def get_index():
 
 
 @app.route("/exercises/<exercise_number>/<file_name>")
+@app.route("/exercises/<exercise_number>/<file_name>/")
 def getExercise(exercise_number, file_name):
     create_user_files(file_name, exercise_number)
 
@@ -39,6 +40,7 @@ def getExercise(exercise_number, file_name):
 
 
 @app.route("/api/sql/execute", methods=["POST"])
+@app.route("/api/sql/execute/", methods=["POST"])
 def run_sql():
     try:
         if request.json.get("user") and request.json.get("number"):
@@ -54,11 +56,13 @@ def run_sql():
 
 
 @app.route("/api/sql/<user>/<exercise_number>", methods=["GET"])
+@app.route("/api/sql/<user>/<exercise_number>/", methods=["GET"])
 def get_sql(user, exercise_number):
     try:
         file_path = get_file_path("*.sql", user, exercise_number)
         with open(file_path, "r") as file:
             return jsonify({"query": file.read()})
+
     except Exception as e:
         return jsonify(e.args[0]), 203
 
