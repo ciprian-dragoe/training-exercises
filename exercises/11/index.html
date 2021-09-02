@@ -4,15 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename=f'style/{{file_name}}-{{exercise_number}}.css') }}"
-        />
-        <link
-            rel="shortcut icon"
-            href="{{ url_for('static', filename=f'images/favicon.jpg') }}"
-            type="image/x-icon"
-        />
+        <link rel="stylesheet" href="{{ stylesheet }}" />
         <script>
             let start = new Date();
             function getElapsedTime() {
@@ -30,10 +22,7 @@
                 return result + "ms -";
             }
         </script>
-        <script
-            src="{{ url_for('static', filename=f'js/{{file_name}}-{{exercise_number}}.js') }}"
-            defer
-        ></script>
+        <script src="{{ script }}" defer></script>
         <title>Exercise 12</title>
     </head>
 

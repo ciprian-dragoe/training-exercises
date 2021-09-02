@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+from flask.helpers import url_for
 from managers.file import (
     get_max_number_exercises,
     create_user_files,
@@ -23,15 +24,18 @@ def get_index():
 
 @app.route("/exercises/<exercise_number>/<file_name>")
 def getExercise(exercise_number, file_name):
-    # try:
     create_user_files(file_name, exercise_number)
+
+    stylesheet = url_for("static", filename=f"style/{file_name}-{exercise_number}.css")
+    script = url_for("static", filename=f"js/{file_name}-{exercise_number}.js")
+
     return render_template(
         f"{file_name}-{exercise_number}.html",
+        stylesheet=stylesheet,
+        script=script,
         file_name=file_name,
         exercise_number=exercise_number,
     )
-    # except:
-    #     return f"Could not create template with name : <h1>{file_name}</h1>"
 
 
 @app.route("/api/sql/execute", methods=["POST"])
