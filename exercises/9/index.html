@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename=f'style/{{file_name}}-{{exercise_number}}.css') }}"
+        />
+        <link
+            rel="shortcut icon"
+            href="{{ url_for('static', filename=f'images/favicon.jpg') }}"
+            type="image/x-icon"
+        />
+        <script
+            src="{{ url_for('static', filename=f'js/{{file_name}}-{{exercise_number}}.js') }}"
+            defer
+        ></script>
+        <title>Exercise 9</title>
+    </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/style/{{file_name}}-{{exercise_number}}.css">
-  <link rel="shortcut icon" href="/static/images/favicon.jpg" type="image/x-icon">
-  <script src="/static/js/{{file_name}}-{{exercise_number}}.js" defer></script>
-  <title>Exercise 9</title>
-</head>
-
-<body>
-  <button id="refresh-price-button">Update BitCoin price</button>
-  <div id="result">Press the button to get the latest price</div>
-</body>
-
+    <body>
+        <button id="refresh-price-button">Update BitCoin price</button>
+        <div id="result">Press the button to get the latest price</div>
+    </body>
 </html>
