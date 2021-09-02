@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px
+}
+
+#action-area {
+    display: flex;
+    flex-direction: row;
+}
+
+#query-area {
+    display: flex;
+    flex-direction: column;
+}
+
+#query-result {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+#initial-data {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+textarea {
+    width: 399px;
+    height: 220px;
+    padding: 0;
+    border: 1px solid black;
+}
+
+
+.table {
+    padding: 5px 5px
+}
+
+.error {
+    color: red;
+    margin: 10px
+}
+
+.red {
+    background: red!important;
+}
+
+.green {
+    background: green!important;
+}
