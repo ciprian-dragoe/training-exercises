@@ -1,3 +1,4 @@
+const user = document.body.dataset.user
 const exerciseNumber = document.body.dataset.exerciseNumber
 let timerID
 const textArea = document.getElementById("sql")
