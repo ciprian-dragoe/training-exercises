@@ -1,6 +1,6 @@
 document.querySelector("form").addEventListener("submit", (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
+    const name = e.target.name.value.toLowerCase().replace(/\s+/gim, "-");
     const number = parseInt(e.target.number.value, 10);
     const maxNumberExercise = parseInt(document.querySelector("[max]").max, 10);
 
