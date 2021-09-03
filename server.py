@@ -23,7 +23,7 @@ def get_index():
 
 
 @app.route("/exercises/<exercise_number>/<file_name>")
-def getExercise(exercise_number, file_name):
+def get_exercise(exercise_number, file_name):
     create_user_files(file_name, exercise_number)
 
     stylesheet = url_for("static", filename=f"style/{file_name}-{exercise_number}.css")
@@ -41,12 +41,13 @@ def getExercise(exercise_number, file_name):
 @app.route("/api/sql/execute", methods=["POST"])
 def run_sql():
     try:
-        if request.json.get("user") and request.json.get("number"):
+        if request.json.get("user") and request.json.get("exerciseNumber"):
             write_sql_query(
                 request.json["user"],
-                request.json["number"],
+                request.json["exerciseNumber"],
                 request.json["query"],
             )
+
         query_result = execute_select(request.json["query"])
         return jsonify(query_result)
     except Exception as e:
