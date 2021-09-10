@@ -1,20 +1,10 @@
 document.querySelector("form").addEventListener("submit", (e) => {
     e.preventDefault();
     const name = e.target.name.value.toLowerCase().replace(/\s+/gim, "-");
-    const number = parseInt(e.target.number.value, 10);
-    const maxNumberExercise = parseInt(document.querySelector("[max]").max, 10);
+    const number = e.target.number.value;
 
     if (!name) {
         alert("Name must not be empty!");
-        return;
-    }
-
-    if (
-        !parseInt(number) ||
-        parseInt(number) < 1 ||
-        parseInt(number) > maxNumberExercise
-    ) {
-        alert("Number is out of range!");
         return;
     }
 

@@ -1,10 +1,11 @@
 import os
-from os import path, listdir, walk
+from os import path, listdir
 
 
-def get_max_number_exercises():
-    for base, dirs, files in walk('./exercises'):
-        return len(dirs)
+def get_exercises():
+    directory_names = [f'{file}' for file in listdir('./exercises/')]
+    directory_names.sort()
+    return directory_names
 
 
 def create_user_files(file_name, exercise_number):

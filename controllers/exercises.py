@@ -5,10 +5,10 @@ from services import exercises
 exercises_route = Blueprint('exercises', __name__)
 
 
-@exercises_route.route("/", methods=["GET", "POST"])
+@exercises_route.route("/")
 def display_exercises():
-    max_number_exercises = exercises.get_max_number_exercises()
-    return render_template("index.html", max_number_exercises=max_number_exercises)
+    exercise_names = exercises.get_exercises()
+    return render_template("exercises.html", exercises=exercise_names)
 
 
 @exercises_route.route("/<exercise_number>/<file_name>")

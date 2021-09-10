@@ -1,9 +1,8 @@
-console.log("show the average historical price for the 'phone' product ")
+const user = document.body.dataset.user
 const exerciseNumber = document.body.dataset.exerciseNumber
-let timerID
 const textArea = document.getElementById("sql")
 
-document.querySelector('h1').innerHTML = "show the average historical price for the 'phone' product"
+document.querySelector('h1').innerHTML = "show all the clients who do not have an address"
 
 textArea.addEventListener("keyup", (event) => {
   if (event.keyCode === 13) {
