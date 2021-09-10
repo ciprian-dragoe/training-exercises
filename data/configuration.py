@@ -1,0 +1,3 @@
+CONFIGURATION = {
+    "DOCKER-CONTAINER-ID": None,
+}
