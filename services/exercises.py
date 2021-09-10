@@ -14,31 +14,31 @@ def create_user_files(file_name, exercise_number):
 
 def get_exercise_files(exercise_number):
     files = [f'./exercises/{exercise_number}/{file}' for file in listdir(f'./exercises/{exercise_number}/')]
-    return files  
+    return files
 
 
 def create_from_template_if_not_exist(template, file_name, exercise_number):
     file_path = get_file_path(template, file_name, exercise_number)
     if not path.exists(file_path):
-        with open(template, "r") as file:
-            content = file.read()
         with open(file_path, "w") as file:
+            content = read_file(template)
             file.write(content)
 
 
 def get_file_path(template, file_name, exercise_number):
     extension = template.split(".")[-1]
     if extension == "html":
-        return f"templates/{file_name}-{exercise_number}.html"
-    if extension == "js":
-        return f"static/js/{file_name}-{exercise_number}.js"
-    if extension == "css":
-        return f"static/style/{file_name}-{exercise_number}.css"
-    if extension == "sql":
-        return f"static/sql/{file_name}-{exercise_number}.sql"
+        return f"templates/exercises/{file_name}-{exercise_number}.{extension}"
+    else:
+        return f"static/exercises/{file_name}-{exercise_number}.{extension}"
 
 
-def write_sql_query(user, exercise_number, query):
-    file_path = f"static/sql/{user}-{exercise_number}.sql"
+def write_file(user, exercise_number, extension, content):
+    file_path = f"static/exercises/{user}-{exercise_number}.{extension}"
     with open(file_path, "w") as file:
-        file.write(query)
+        file.write(content)
+
+
+def read_file(file_path):
+    with open(file_path, "r") as file:
+        return file.read()

@@ -15,11 +15,10 @@ def display_exercises():
 def display_exercise(exercise_number, file_name):
     exercises.create_user_files(file_name, exercise_number)
 
-    stylesheet = url_for("static", filename=f"style/{file_name}-{exercise_number}.css")
-    script = url_for("static", filename=f"js/{file_name}-{exercise_number}.js")
-
+    stylesheet = url_for("static", filename=f"exercises/{file_name}-{exercise_number}.css")
+    script = url_for("static", filename=f"exercises/{file_name}-{exercise_number}.js")
     return render_template(
-        f"{file_name}-{exercise_number}.html",
+        f"exercises/{file_name}-{exercise_number}.html",
         stylesheet=stylesheet,
         script=script,
         file_name=file_name,

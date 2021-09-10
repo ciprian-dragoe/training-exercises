@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services import exercises
+from services import database
 
 
 sql_route = Blueprint('sql', __name__)
@@ -9,13 +10,14 @@ sql_route = Blueprint('sql', __name__)
 def run_sql():
     try:
         if request.json.get("user") and request.json.get("exerciseNumber"):
-            exercises.write_sql_query(
+            exercises.write_file(
                 request.json["user"],
                 request.json["exerciseNumber"],
-                request.json["query"],
+                "sql",
+                request.json["query"]
             )
 
-        query_result = exercises.execute_select(request.json["query"])
+        query_result = database.execute_select(request.json["query"])
         return jsonify(query_result)
     except Exception as e:
         return jsonify(e.args[0]), 203
@@ -25,7 +27,7 @@ def run_sql():
 def get_sql(user, exercise_number):
     try:
         file_path = exercises.get_file_path("*.sql", user, exercise_number)
-        with open(file_path, "r") as file:
-            return jsonify({"query": file.read()})
+        file_content = exercises.read_file(file_path)
+        return jsonify({"query": file_content})
     except Exception as e:
         return jsonify(e.args[0]), 203
