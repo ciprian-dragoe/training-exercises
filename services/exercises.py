@@ -1,3 +1,4 @@
+import os
 from os import path, listdir, walk
 
 
@@ -42,3 +43,9 @@ def write_file(user, exercise_number, extension, content):
 def read_file(file_path):
     with open(file_path, "r") as file:
         return file.read()
+
+
+def delete_all_exercise_files():
+    paths = ['./templates/exercises', './static/exercises']
+    for base_path in paths:
+        [os.remove(f'{base_path}/{file}') for file in listdir(f'./{base_path}/')]

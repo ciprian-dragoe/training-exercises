@@ -1,6 +1,6 @@
 from flask import Blueprint, request, redirect, session, render_template, url_for
 import bcrypt
-from services import docker
+from services import docker, exercises
 from data.configuration import CONFIGURATION
 
 
@@ -27,14 +27,13 @@ def display_admin_dashboard():
         return redirect(url_for("admin.display_admin_login"))
 
 
-@admin_route.route("/logout", methods=["POST"])
+@admin_route.route("/logout")
 def logout_admin():
     docker.kill_existing_containers()
     session.pop('is-admin-logged', None)
+    exercises.delete_all_exercise_files()
     return redirect(url_for("admin.display_admin_login"))
 
 
 def verify_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_password)
-
-
