@@ -7,11 +7,15 @@ from managers.file import (
     get_file_path,
 )
 from dotenv import load_dotenv
+load_dotenv()
 from managers.database import execute_select
+from controllers.admin import admin_route
 
 
 app = Flask("dom-manipulation")
-load_dotenv()
+app.register_blueprint(admin_route, url_prefix='/admin')
+app.secret_key = b'\xd7S@C\xe00\xf8\x11\xefj\xf1\xbcN\xb1$\xd5'
+
 
 
 @app.route("/")
