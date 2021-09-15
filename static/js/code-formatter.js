@@ -1,48 +1,53 @@
-const codeElement = document.getElementById("code-area")
-const runElement = document.getElementById("run-code")
 const tabSize = 2
-codeElement.focus()
 
-codeElement.addEventListener("keydown", event => {
-    const action = keyAction[event.key]
-    if (action) {
-        action()
+function applyCodingInputEvents() {
+    const codingAreas = document.querySelectorAll("[data-language]")
+    for (const codingArea of codingAreas) {
+        codingArea.addEventListener("keydown", event => {
+            const action = keyActionFactory[event.key]
+            if (action) {
+                action(codingArea)
+            }
+        })
     }
-})
 
-function sendTab() {
-    const currentCursorPosition = codeElement.selectionStart
-    codeElement.value = [
-        codeElement.value.slice(0, codeElement.selectionStart),
+    codingAreas.length === 1 && codingAreas[0].focus()
+}
+
+function sendTab(codingArea) {
+    const currentCursorPosition = codingArea.selectionStart
+    codingArea.value = [
+        codingArea.value.slice(0, codingArea.selectionStart),
         " ".repeat(tabSize),
-        codeElement.value.slice(codeElement.selectionStart)]
+        codingArea.value.slice(codingArea.selectionStart)]
         .join('')
-    codeElement.selectionStart = currentCursorPosition + 2
-    codeElement.selectionEnd = currentCursorPosition + 2
-    setTimeout(() => codeElement.focus(), 0)
+    codingArea.selectionStart = currentCursorPosition + 2
+    codingArea.selectionEnd = currentCursorPosition + 2
+    setTimeout(() => codingArea.focus(), 0)
 }
 
-function sendEnter() {
+function sendEnter(codingArea) {
     setTimeout(() => {
-        const currentCursorPosition = codeElement.selectionStart
-        const cursorPosition = getCursorPosition(codeElement)
-        const currentLine = codeElement.value.split("\n")[cursorPosition.lineNumber]
+        const currentCursorPosition = codingArea.selectionStart
+        const cursorPosition = getCursorPosition(codingArea)
+        const currentLine = codingArea.value.split("\n")[cursorPosition.lineNumber]
         const spacesPreviousLine = currentLine.length - currentLine.trimLeft().length
-        const spacesFromNewBlockScope = currentLine.trimRight().at(-1) === "{" ? 2 : 0
+        const spacesFromNewBlockScope =
+            currentLine.trimRight().at(-1) === blockTypesFactory[codingArea.dataset.language] ? tabSize : 0
         const newLineIndentation = " ".repeat(spacesPreviousLine + spacesFromNewBlockScope)
-        codeElement.value = [
-            codeElement.value.slice(0, currentCursorPosition),
+        codingArea.value = [
+            codingArea.value.slice(0, currentCursorPosition),
             newLineIndentation,
-            codeElement.value.slice(currentCursorPosition)]
+            codingArea.value.slice(currentCursorPosition)]
             .join('')
-        codeElement.selectionStart = currentCursorPosition + spacesPreviousLine + spacesFromNewBlockScope
-        codeElement.selectionEnd = currentCursorPosition + spacesPreviousLine + spacesFromNewBlockScope
-    }, 0)
+        codingArea.selectionStart = currentCursorPosition + spacesPreviousLine + spacesFromNewBlockScope
+        codingArea.selectionEnd = currentCursorPosition + spacesPreviousLine + spacesFromNewBlockScope
+    }, 10)
 }
 
-function getCursorPosition(inputElement) {
-    const currentPosition = inputElement.selectionStart - 1
-    const lines = codeElement.value.split("\n")
+function getCursorPosition(codingArea) {
+    const currentPosition = codingArea.selectionStart - 1
+    const lines = codingArea.value.split("\n")
     const result = {
         lineNumber: 0,
         colNumber: 0
@@ -60,7 +65,15 @@ function getCursorPosition(inputElement) {
     return result
 }
 
-const keyAction = {
+const keyActionFactory = {
     "Tab": sendTab,
     "Enter": sendEnter
 }
+
+const blockTypesFactory = {
+    "js": "{"
+}
+
+
+
+applyCodingInputEvents()
