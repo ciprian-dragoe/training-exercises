@@ -3,6 +3,7 @@ const tabSize = 2
 function applyCodingInputEvents() {
     const codingAreas = document.querySelectorAll("[data-language]")
     for (const codingArea of codingAreas) {
+        getExistingCode(codingArea)
         codingArea.addEventListener("keydown", event => {
             const action = keyActionFactory[event.key]
             if (action) {
@@ -12,6 +13,14 @@ function applyCodingInputEvents() {
     }
 
     codingAreas.length === 1 && codingAreas[0].focus()
+}
+
+async function getExistingCode(codeArea) {
+    const request = await fetch(`/api/language/js/read/${document.body.dataset.user}/${document.body.dataset.exerciseNumber}`)
+    if (request.status === 200) {
+        const data = await request.json()
+        codeArea.value = data.code
+    }
 }
 
 function sendTab(codingArea) {

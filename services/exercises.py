@@ -27,16 +27,17 @@ def create_from_template_if_not_exist(template, file_name, exercise_number):
             file.write(content)
 
 
-def get_file_path(template, file_name, exercise_number):
+def get_file_path(template, user_id, exercise_number):
     extension = template.split(".")[-1]
+    file_name = template.split("/")[-1].split(".")[0]
     if extension == "html":
-        return f"templates/exercises/{file_name}-{exercise_number}.{extension}"
+        return f"templates/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
     else:
-        return f"static/exercises/{file_name}-{exercise_number}.{extension}"
+        return f"static/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
 
 
-def write_file(user, exercise_number, extension, content):
-    file_path = f"static/exercises/{user}-{exercise_number}.{extension}"
+def write_file(file_name, content):
+    file_path = f"static/exercises/{file_name}"
     with open(file_path, "w") as file:
         file.write(content)
 
