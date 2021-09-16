@@ -16,7 +16,7 @@ function applyCodingInputEvents() {
 }
 
 async function getExistingCode(codeArea) {
-    const request = await fetch(`/api/language/js/read/${document.body.dataset.user}/${document.body.dataset.exerciseNumber}`)
+    const request = await fetch(`/api/language/${codeArea.dataset.language}/read/${document.body.dataset.user}/${document.body.dataset.exerciseNumber}`)
     if (request.status === 200) {
         const data = await request.json()
         codeArea.value = data.code
@@ -80,7 +80,8 @@ const keyActionFactory = {
 }
 
 const blockTypesFactory = {
-    "js": "{"
+    "js": "{",
+    "py": ":"
 }
 
 

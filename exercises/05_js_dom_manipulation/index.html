@@ -1,9 +1,5 @@
 {% extends "exercise_template.html" %}
 
-{% block page_title %}
-    Exercise 5
-{% endblock %}
-
 {% block extra_imports %}
     <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
@@ -12,7 +8,7 @@
 {% block body_content %}
   <div style="display: flex; flex-direction: column; margin-bottom: 30px">
     <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
-    <button data-execute-language="js">Execute JS</button>
+    <button data-execute-language="js" data-execute-callback="runJs">Execute JS</button>
   </div>
 
   <div style="font-size: 25px; color: green">print in the console the html element with the tag `h5` by traversing the document.body (do not use functions for capturing input)</div>

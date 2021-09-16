@@ -9,7 +9,7 @@
     <script src="/static/exercises/{{ file_name }}-{{ exercise_number }}-index.js" defer></script>
     {% block extra_imports %}{% endblock %}
 
-    <title>{% block page_title %}{% endblock %}</title>
+    <title>{{ exercise_number.replace("_", " ") }}</title>
 </head>
 <body data-user="{{ file_name }}" data-exercise-number="{{ exercise_number }}">
     {% block body_content %}{% endblock %}

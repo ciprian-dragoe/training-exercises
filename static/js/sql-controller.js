@@ -1,45 +1,10 @@
-const user = document.body.dataset.user
-const exerciseNumber = document.body.dataset.exerciseNumber
-const textArea = document.getElementById("sql")
-
-document.querySelector('h1').innerHTML = ""
-
-textArea.addEventListener("keyup", (event) => {
-  if (event.keyCode === 13) {
-    const formattedSql = sqlFormatter.format(textArea.value, {
-            language: "postgresql",
-            uppercase: true,
-          });
-    textArea.value = formattedSql + "\n"
-  }})
-
-async function getPostResult(data) {
-    return await fetch("/api/sql/execute", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-}
-
-async function executeQuery() {
-    const formattedSql = sqlFormatter.format(textArea.value, {
-            language: "postgresql",
-            uppercase: true,
-          });
-    textArea.value = formattedSql
-    const response = await getPostResult({
-            query: textArea.value,
-            user: user,
-            exerciseNumber: exerciseNumber,
-        })
-    const data = await response.json()
-    if (response.status === 200) {
-        printHtmlElement("query-result", buildTable(data, "MyQuery"))
+function runSql(code, result) {
+    if (result.error) {
+        printHtmlElement("query-result", buildErrorMessage(result.error))
     } else {
-        printHtmlElement("query-result", buildErrorMessage(data))
+        printHtmlElement("query-result", buildTable(result.result, "MyQuery"))
     }
+    printHtmlElement("query-result", buildTable(result.result, "MyQuery"))
 }
 
 function buildErrorMessage(errorMessage) {
@@ -97,9 +62,8 @@ function buildTable(tableData, tableName) {
 }
 
 async function appendQueryTable(placementId, sqlCode, tableName) {
-    let response = await getPostResult({ query: sqlCode })
-    const data = await response.json()
-    addHtmlElement(placementId, buildTable(data, tableName))
+    let data = await executeCodeRemotely(sqlCode, "sql")
+    addHtmlElement(placementId, buildTable(data.result, tableName))
 }
 
 async function displayDefaultTables() {
@@ -108,12 +72,6 @@ async function displayDefaultTables() {
     await appendQueryTable("initial-data", "select * from products", 'products')
     await appendQueryTable("initial-data", "select * from products_price_history", 'products_price_history')
     addTableEvents()
-    const response = await fetch(`/api/sql/${user}/${exerciseNumber}`)
-    if (response.status === 200) {
-        const data = await response.json()
-        textArea.value = data.query
-        data && executeQuery()
-    }
 }
 
 function addTableEvents() {
@@ -136,5 +94,4 @@ function toggleClass(domItem, className) {
     }
 }
 
-document.getElementById("run-query-button").addEventListener("click", executeQuery)
 displayDefaultTables()

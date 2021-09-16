@@ -14,7 +14,7 @@ def execute_language(language_type):
 
         return jsonify({"result": result})
     except Exception as e:
-        return jsonify(e.args[0]), 203
+        return jsonify({"error": e.args[0]})
 
 
 @languages_route.route("/<language_type>/read/<user>/<exercise_number>")

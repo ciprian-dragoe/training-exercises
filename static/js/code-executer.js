@@ -1,18 +1,20 @@
 function applyRunCodeEvents() {
     const buttons = document.querySelectorAll("[data-execute-language]")
     for (const button of buttons) {
-        button.addEventListener("click", event => {
-            const action = runCodeActionFactory[button.dataset.executeLanguage]
-            if (action) {
-                action(button)
-            }
-        })
+        button.addEventListener("click", event => runCode(button))
     }
 }
 
-async function runJavraScript(button) {
-    const code = document.querySelector('[data-language=js]').value
-    await fetch("/api/language/js/execute", {
+async function runCode(button) {
+    const language = button.dataset.executeLanguage
+    const code = document.querySelector(`[data-language=${language}]`).value
+    const result = await executeCodeRemotely(code, language)
+    const callback = window[button.dataset.executeCallback]
+    callback && callback(code, result)
+}
+
+async function executeCodeRemotely(code, language) {
+    const request = await fetch(`/api/language/${language}/execute`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -23,11 +25,7 @@ async function runJavraScript(button) {
             user: document.body.dataset.user
         })
     })
-    eval(code)
-}
-
-const runCodeActionFactory = {
-    "js": runJavraScript,
+    return await request.json()
 }
 
 applyRunCodeEvents()

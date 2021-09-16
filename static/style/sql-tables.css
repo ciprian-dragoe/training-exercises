@@ -8,11 +8,15 @@ body {
 #action-area {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 
 #query-area {
     display: flex;
     flex-direction: column;
+    width: 500px;
+    height: 250px;
 }
 
 #query-result {
@@ -27,14 +31,6 @@ body {
     flex-direction: row;
     align-items: start;
 }
-
-textarea {
-    width: 399px;
-    height: 220px;
-    padding: 0;
-    border: 1px solid black;
-}
-
 
 .table {
     padding: 5px 5px
