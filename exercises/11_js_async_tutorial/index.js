@@ -1,12 +1,16 @@
-async function getInformationFromInternet() {
-  console.log(getElapsedTime(), "[getInformationFromInternet] Before fetch")
-  let response = await fetch("https://api.coindesk.com/v1/bpi/currentprice.json")
-  globalVariableWithBitcoinPrice = await response.json()
-  console.log(getElapsedTime(), "[getInformationFromInternet] Value of data = ", globalVariableWithBitcoinPrice.bpi.USD.rate)
-}
+let start = new Date();
 
-let globalVariableWithBitcoinPrice = null
-console.log(getElapsedTime(), "[main] Starting to execute getInformationFromInternetWithoutAsync()")
-getInformationFromInternet()
-console.log(getElapsedTime(), "[main] Finished executing getInformationFromInternetWithoutAsync()")
-console.log(getElapsedTime(), "[main] Value of globalVariableWithBitcoinPrice = ", globalVariableWithBitcoinPrice)
+function getElapsedTime() {
+    let difference = new Date() - start;
+    let remainder = Math.floor(difference / 10);
+    let amount = 1;
+    while (remainder > 0) {
+        remainder = Math.floor(remainder / 10);
+        amount++;
+    }
+    let result = difference.toString();
+    for (let i = amount; i < 8; i++) {
+        result = " " + result;
+    }
+    return result + "ms -";
+}

@@ -1,16 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ stylesheet }}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.jpg') }}" type="image/x-icon">
-  <script src="{{ script }}" defer></script>
-  <title>Exercise 4</title>
-</head>
+{% extends "exercise_template.html" %}
 
-<body>
+{% block page_title %}
+    Exercise 4
+{% endblock %}
+
+{% block extra_imports %}
+    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+  <div style="display: flex; flex-direction: column; margin-bottom: 30px">
+    <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
+    <button data-execute-language="js">Execute JS</button>
+  </div>
+
+  <div style="font-size: 25px; color: green">capture via js using css specificity & print in the console the html element with the text `This is the last paragraph` (the query should return a `NodeList` with a single element)</div>
+
   <h1>This is a Heading 1</h1>
   <h2>This is a Heading 2</h2>
   <h3>This is a Heading 3 This is a Heading 3 This is a Heading 3 This is a Heading 3 This is a Heading 3 This is a
@@ -35,6 +41,6 @@
       <div class="red-square"></div>
       <div class="red-square"></div>
       <div class="blue-bar"></div>
-</body>
-
-</html>
+    </div>
+  </div>
+{% endblock %}

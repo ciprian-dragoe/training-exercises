@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{{ stylesheet }}" />
-        <link
-            rel="shortcut icon"
-            href="{{ url_for('static', filename='images/favicon.jpg') }}"
-            type="image/x-icon"
-        />
-        <script src="{{ script }}" defer></script>
-        <title>Exercise 8</title>
-    </head>
+{% extends "exercise_template.html" %}
 
-    <body>
-        <div id="box"></div>
-    </body>
-</html>
+{% block page_title %}
+    Exercise 7
+{% endblock %}
+
+{% block extra_imports %}
+    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+  <div style="display: flex; flex-direction: column; margin-bottom: 30px">
+    <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
+    <button data-execute-language="js">Execute JS</button>
+  </div>
+
+  <div style="font-size: 25px; color: green">when you put your mouse cursor over the blue box make it red, when you take the mouse cursor out of the box, make it blue</div>
+
+  <div id="box"></div>
+{% endblock %}

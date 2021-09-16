@@ -1,26 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{{ stylesheet }}" />
-        <link
-            rel="shortcut icon"
-            href="{{ url_for('static', filename='images/favicon.jpg') }}"
-            type="image/x-icon"
-        />
-        <script src="{{ script }}" defer></script>
-        <title>Exercise 10</title>
-    </head>
+{% extends "exercise_template.html" %}
 
-    <body>
-        <input
-            id="name-input"
-            placeholder="enter your name"
-            style="width: 200px"
-        />
-        <button id="predict-age-button">Predict Age</button>
-        <div id="result"></div>
-    </body>
-</html>
+{% block page_title %}
+    Exercise 10
+{% endblock %}
+
+{% block extra_imports %}
+    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+    <div style="display: flex; flex-direction: column; margin-bottom: 30px">
+        <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
+        <button data-execute-language="js">Execute JS</button>
+    </div>
+
+    <input id="age-input" placeholder="enter your name"/>
+    <button>Predict Age</button>
+    <div id="result"></div>
+
+    <h1>when you press the button <strong>Predict Age</strong> capture the input and use it to predict the age using the api <strong>https://api.agify.io?name=[what_you_typed]</strong></h1>
+{% endblock %}
