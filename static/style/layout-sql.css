@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px
+}
+
+#action-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#query-area {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 250px;
+}
+
+#query-result {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+#initial-data {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.table {
+    padding: 5px 5px
+}
+
+.error {
+    color: red;
+    margin: 10px
+}
+
+.red {
+    background: red!important;
+}
+
+.green {
+    background: green!important;
+}

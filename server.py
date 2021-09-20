@@ -1,71 +1,34 @@
-from flask import Flask, render_template, request, jsonify, url_for
-
-from managers.file import (
-    get_max_number_exercises,
-    create_user_files,
-    write_sql_query,
-    get_file_path,
-)
-from dotenv import load_dotenv
-from managers.database import execute_select
+import atexit
+from flask import Flask, redirect
 
 
-app = Flask("dom-manipulation")
-load_dotenv()
+from services import app_configuration
+from controllers.admin import admin_route
+from controllers.language_api import languages_route
+from controllers.exercises import exercises_route
+from services.docker import kill_existing_containers
+
+
+app = Flask("exercises")
 
 
 @app.route("/")
-@app.route("/exercises")
-@app.route("/exercises/")
-def get_index():
-    max_number_exercises = get_max_number_exercises()
-    return render_template("index.html", max_number_exercises=max_number_exercises)
+def index():
+    return redirect("/exercises/")
 
 
-@app.route("/exercises/<exercise_number>/<file_name>")
-@app.route("/exercises/<exercise_number>/<file_name>/")
-def getExercise(exercise_number, file_name):
-    create_user_files(file_name, exercise_number)
-
-    stylesheet = url_for("static", filename=f"style/{file_name}-{exercise_number}.css")
-    script = url_for("static", filename=f"js/{file_name}-{exercise_number}.js")
-
-    return render_template(
-        f"{file_name}-{exercise_number}.html",
-        stylesheet=stylesheet,
-        script=script,
-        file_name=file_name,
-        exercise_number=exercise_number,
-    )
+def initialize_app():
+    app_configuration.initialize(app)
+    app.register_blueprint(admin_route, url_prefix='/admin')
+    app.register_blueprint(exercises_route, url_prefix='/exercises')
+    app.register_blueprint(languages_route, url_prefix='/api/language')
 
 
-@app.route("/api/sql/execute", methods=["POST"])
-@app.route("/api/sql/execute/", methods=["POST"])
-def run_sql():
-    try:
-        if request.json.get("user") and request.json.get("number"):
-            write_sql_query(
-                request.json["user"],
-                request.json["number"],
-                request.json["query"],
-            )
-        query_result = execute_select(request.json["query"])
-        return jsonify(query_result)
-    except Exception as e:
-        return jsonify(e.args[0]), 203
+def de_initialize_app():
+    kill_existing_containers()
 
 
-@app.route("/api/sql/<user>/<exercise_number>", methods=["GET"])
-@app.route("/api/sql/<user>/<exercise_number>/", methods=["GET"])
-def get_sql(user, exercise_number):
-    try:
-        file_path = get_file_path("*.sql", user, exercise_number)
-        with open(file_path, "r") as file:
-            return jsonify({"query": file.read()})
-
-    except Exception as e:
-        return jsonify(e.args[0]), 203
-
-
+atexit.register(de_initialize_app)
 if __name__ == "__main__":
+    initialize_app()
     app.run(debug=True)

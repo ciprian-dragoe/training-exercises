@@ -1,0 +1,16 @@
+{% extends "exercise_template.html" %}
+
+{% block extra_imports %}
+    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/js-controller.js') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+    <div style="display: flex; flex-direction: column; margin-bottom: 30px">
+        <textarea data-language="js" style="height: 500px; font-size: 20px"></textarea>
+        <button data-execute-language="js" data-execute-callback="runJs">Execute JS</button>
+    </div>
+
+    <div id="result"></div>
+{% endblock %}

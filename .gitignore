@@ -5,3 +5,10 @@
 venv/
 __pycache__/
 .env
+templates/exercises/*.html
+static/exercises/*.js
+static/exercises/*.css
+static/exercises/*.sql
+static/exercises/*.py
+static/exercises/*.cs
+static/exercises/*.js
