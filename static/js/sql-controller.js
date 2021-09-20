@@ -2,9 +2,9 @@ function runSql(code, result) {
     if (result.error) {
         printHtmlElement("query-result", buildErrorMessage(result.error))
     } else {
-        printHtmlElement("query-result", buildTable(result.result, "MyQuery"))
+        printHtmlElement("query-result", buildTable(result.output, "MyQuery"))
     }
-    printHtmlElement("query-result", buildTable(result.result, "MyQuery"))
+    printHtmlElement("query-result", buildTable(result.output, "MyQuery"))
 }
 
 function buildErrorMessage(errorMessage) {
@@ -63,7 +63,7 @@ function buildTable(tableData, tableName) {
 
 async function appendQueryTable(placementId, sqlCode, tableName) {
     let data = await executeCodeRemotely(sqlCode, "sql")
-    addHtmlElement(placementId, buildTable(data.result, tableName))
+    addHtmlElement(placementId, buildTable(data.output, tableName))
 }
 
 async function displayDefaultTables() {

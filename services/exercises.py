@@ -36,10 +36,14 @@ def get_file_path(template, user_id, exercise_number):
         return f"static/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
 
 
-def write_file(file_name, content):
-    file_path = f"static/exercises/{file_name}"
+def write_file(user, exercise_number, extension, content):
+    file_path = f"static/exercises/{user}-{exercise_number}-code.{extension}"
     with open(file_path, "w") as file:
         file.write(content)
+    return {
+        "path": file_path,
+        "content": content
+    }
 
 
 def read_file(file_path):

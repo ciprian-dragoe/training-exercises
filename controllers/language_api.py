@@ -8,13 +8,10 @@ languages_route = Blueprint('api/language/', __name__)
 
 @languages_route.route("/<language_type>/execute", methods=["POST"])
 def execute_language(language_type):
-    try:
-        factory = language_execution_factory.manufacture(language_type)
-        result = factory(request.json["code"], request.json["user"], request.json["exerciseNumber"])
+    factory = language_execution_factory.manufacture(language_type)
+    result = factory(request.json["code"], request.json["user"], request.json["exerciseNumber"])
 
-        return jsonify({"result": result})
-    except Exception as e:
-        return jsonify({"error": e.args[0]})
+    return jsonify(result)
 
 
 @languages_route.route("/<language_type>/read/<user>/<exercise_number>")

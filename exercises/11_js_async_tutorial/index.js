@@ -14,7 +14,3 @@ function getElapsedTime() {
     }
     return result + "ms -";
 }
-
-function runJs (code, result) {
-    eval(code)
-}

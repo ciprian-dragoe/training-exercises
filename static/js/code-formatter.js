@@ -81,9 +81,8 @@ const keyActionFactory = {
 
 const blockTypesFactory = {
     "js": "{",
-    "py": ":"
+    "py": ":",
+    "sql": "*"
 }
-
-
 
 applyCodingInputEvents()

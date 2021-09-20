@@ -1,0 +1,49 @@
+p {
+  color: red;
+  border: 4px dotted black;
+}
+
+#para1 {
+  background: blue;
+}
+
+h1 {
+  margin-left: 50px;
+}
+
+h2 {
+  padding-top: 20px;
+}
+
+h3 {
+  width: 200px;
+  margin: auto
+}
+
+h4:hover {
+  background: yellow;
+}
+
+h5 {
+  display: none;
+}
+
+.red-square {
+  width: 100px;
+  height: 100px;
+  background: red;
+  margin: 50px;
+  float: left;
+}
+
+.blue-bar {
+  height: 0.5in;
+  background: blue;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+div > h4 {
+  background: red;
+}
