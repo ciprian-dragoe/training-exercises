@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, session, render_template, url_for
+from flask import Blueprint, request, redirect, session, render_template, url_for, jsonify
 import bcrypt
 from services import docker, exercises
 from data.configuration import CONFIGURATION
@@ -33,6 +33,12 @@ def logout_admin():
     session.pop('is-admin-logged', None)
     exercises.delete_all_exercise_files()
     return redirect(url_for("admin.display_admin_login"))
+
+
+@admin_route.route("/active-projects")
+def get_active_projects():
+    projects = exercises.get_active_exercises()
+    return jsonify(projects)
 
 
 def verify_password(plain_text_password, hashed_password):
