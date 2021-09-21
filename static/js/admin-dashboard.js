@@ -1,5 +1,3 @@
-console.log("mege")
-
 async function getActiveProjects() {
     const response = await fetch("/admin/active-projects")
     const projects = await response.json()
@@ -11,7 +9,7 @@ function displayActiveExercises(exercises) {
     let result = ""
     for (let exercise of exercises) {
         result += `
-        <div><a href="/exercises/${exercise.exerciseNumber}/${exercise.user}">
+        <div><a target="_blank" href="/exercises/${exercise.exerciseNumber}/${exercise.user}">
             ${exercise.user} - ${exercise.exerciseNumber.replaceAll("_", " ")}
         </a></div>`
     }

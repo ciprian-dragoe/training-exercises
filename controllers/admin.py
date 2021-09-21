@@ -1,7 +1,10 @@
 from flask import Blueprint, request, redirect, session, render_template, url_for, jsonify
 import bcrypt
+
+
 from services import docker, exercises
 from data.configuration import CONFIGURATION
+from services.set_timeout import SET_TIMEOUT
 
 
 admin_route = Blueprint('admin', __name__)
@@ -21,7 +24,6 @@ def display_admin_login():
 @admin_route.route("/dashboard", methods=["GET"])
 def display_admin_dashboard():
     if "is-admin-logged" in session.keys():
-        docker.initialize()
         return render_template("admin-dashboard.html")
     else:
         return redirect(url_for("admin.display_admin_login"))
@@ -37,8 +39,15 @@ def logout_admin():
 
 @admin_route.route("/active-projects")
 def get_active_projects():
-    projects = exercises.get_active_exercises()
-    return jsonify(projects)
+    if "is-admin-logged" in session.keys():
+        docker.initialize()
+        SET_TIMEOUT.clear()
+        SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER-KILL-TIMEOUT-SECONDS"]))
+        # print("keep alive docker")
+        projects = exercises.get_active_exercises()
+        return jsonify(projects)
+    return "not logged"
+
 
 
 def verify_password(plain_text_password, hashed_password):
