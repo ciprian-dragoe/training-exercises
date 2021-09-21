@@ -13,4 +13,5 @@ def initialize(flask_app):
     CONFIGURATION["MY_PSQL_USER"] = os.environ.get("MY_PSQL_USER")
     CONFIGURATION["MY_PSQL_HOST"] = os.environ.get("MY_PSQL_HOST")
     CONFIGURATION["MY_PSQL_PASSWORD"] = os.environ.get("MY_PSQL_PASSWORD")
+    CONFIGURATION["DOCKER-KILL-TIMEOUT-SECONDS"] = os.environ.get("DOCKER-KILL-TIMEOUT-SECONDS")
 
