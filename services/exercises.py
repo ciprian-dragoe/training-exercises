@@ -1,5 +1,6 @@
 import os
 from os import path, listdir
+from glob import glob
 
 
 def get_exercises():
@@ -20,20 +21,26 @@ def get_exercise_files(exercise_number):
 
 
 def create_from_template_if_not_exist(template, file_name, exercise_number):
-    file_path = get_file_path(template, file_name, exercise_number)
+    file_path = get_exercise_path(template, file_name, exercise_number)
     if not path.exists(file_path):
         with open(file_path, "w") as file:
             content = read_file(template)
             file.write(content)
 
 
-def get_file_path(template, user_id, exercise_number):
+def get_exercise_path(template, user_id, exercise_number):
     extension = template.split(".")[-1]
     file_name = template.split("/")[-1].split(".")[0]
     if extension == "html":
         return f"templates/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
     else:
         return f"static/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
+
+
+def get_active_exercises():
+    projects = [exercise.replace('\\', '/') for exercise in glob("static/exercises/*-code.*")]
+    result = [{"user": p.split('-')[0].split('/')[-1], "exerciseNumber": p.split('-')[1]} for p in projects]
+    return result
 
 
 def write_file(user, exercise_number, extension, content):
