@@ -29,6 +29,6 @@ def de_initialize_app():
 
 
 atexit.register(de_initialize_app)
+initialize_app()
 if __name__ == "__main__":
-    initialize_app()
     app.run(debug=True)

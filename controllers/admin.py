@@ -49,6 +49,5 @@ def get_active_projects():
     return "not logged"
 
 
-
 def verify_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_password)
