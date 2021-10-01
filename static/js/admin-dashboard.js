@@ -38,9 +38,9 @@ function displayActiveExercises(exercises) {
         const exerciseNumbers = exercises.filter(e => e.user === user).map(e => e.exerciseNumber)
         const links = exerciseNumbers.map(exNum => `
             <div>
-                ${exNum}
                 <button onclick="viewStudentCodingArea('${user}', '${exNum}')">Go to exercise</button>
                 <button onclick="setStudentCodeFetchHook('${user}', '${exNum}')">View solution</button>
+                ${exNum}
             </div>`
         ).join("")
         result += `
