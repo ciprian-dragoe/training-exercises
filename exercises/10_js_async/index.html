@@ -12,9 +12,8 @@
         <button data-execute-language="js" data-execute-callback="runJs">Execute JS</button>
     </div>
 
-    <input id="age-input" placeholder="enter your name"/>
-    <button>Predict Age</button>
-    <div id="result"></div>
+    <button id="refresh-price-button">Update BitCoin price</button>
+    <div id="result">Press the button to get the latest price</div>
 
-    <h1>when you press the button <strong>Predict Age</strong> capture the input and use it to predict the age using the api <strong>https://api.agify.io?name=[what_you_typed]</strong></h1>
+    <h1>when you press the button <strong>Update BitCoin price</strong> show the price in euro of bitcoin from the api <strong>https://api.coindesk.com/v1/bpi/currentprice.json</strong></h1>
 {% endblock %}
