@@ -1,7 +1,33 @@
-async function getActiveProjects() {
+let studentCodeUlr = ''
+const codeAreaElement = document.getElementById("student-code-area")
+codeAreaElement.value = ""
+
+async function displayStudentCode() {
+    if (studentCodeUlr){
+        const request = await fetch(studentCodeUlr)
+        if (request.status === 200) {
+            const data = await request.json()
+            codeAreaElement.value = data.code
+        }
+    }
+}
+
+function setStudentCodeFetchHook(user, exNum) {
+    console.log(user, exNum)
+    const language = exNum.split("_")[1]
+    studentCodeUlr = `/api/language/${language}/read/${user}/${exNum}`
+    displayStudentCode()
+}
+
+function viewStudentCodingArea(user, exNum) {
+    window.open(`/exercises/${exNum}/${user}`, '_blank').focus();
+}
+
+async function displayActiveProjects() {
     const response = await fetch("/admin/active-projects")
     const projects = await response.json()
     displayActiveExercises(projects)
+    displayStudentCode()
 }
 
 function displayActiveExercises(exercises) {
@@ -13,18 +39,20 @@ function displayActiveExercises(exercises) {
         const links = exerciseNumbers.map(exNum => `
             <div>
                 ${exNum}
-                <button target="_blank" href="/exercises/${exNum}/${user}">Go to exercise</button>
-                <button id="${user}-${exNum}">View solution</button>
+                <button onclick="viewStudentCodingArea('${user}', '${exNum}')">Go to exercise</button>
+                <button onclick="setStudentCodeFetchHook('${user}', '${exNum}')">View solution</button>
             </div>`
         ).join("")
         result += `
-            <div>
-                <div class="user">${user}</div>
-                <div class="links">${links}</div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">${user}</h5>
+                <p class="card-text">${links}</p>
+              </div>
             </div>`
     }
     destinationElement.innerHTML = result
 }
 
-getActiveProjects()
-setInterval(getActiveProjects, 10000)
+displayActiveProjects()
+setInterval(displayActiveProjects, 10000)
