@@ -1,4 +1,4 @@
-.user {
-  margin: 10px;
-  background: aliceblue;
+#student-code-area {
+  width: 100%;
+  height: 300px;
 }
