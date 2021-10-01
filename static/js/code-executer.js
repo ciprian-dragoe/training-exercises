@@ -8,7 +8,9 @@ function applyRunCodeEvents() {
 async function runCode(button) {
     const language = button.dataset.executeLanguage
     const code = document.querySelector(`[data-language=${language}]`).value
+    button.disabled = true
     const result = await executeCodeRemotely(code, language)
+    button.disabled = false
     const callback = window[button.dataset.executeCallback]
     callback && callback(code, result)
 }
