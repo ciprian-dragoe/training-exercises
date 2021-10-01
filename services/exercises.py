@@ -61,4 +61,4 @@ def read_file(file_path):
 def delete_all_exercise_files():
     paths = ['./templates/exercises', './static/exercises']
     for base_path in paths:
-        [os.remove(f'{base_path}/{file}') for file in listdir(f'./{base_path}/')]
+        [os.remove(f'{base_path}/{file}') for file in listdir(f'./{base_path}/') if file != "__blank"]
