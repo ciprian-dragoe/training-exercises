@@ -12,3 +12,4 @@ static/exercises/*.sql
 static/exercises/*.py
 static/exercises/*.cs
 static/exercises/*.js
+static/exercises/*.sanitized

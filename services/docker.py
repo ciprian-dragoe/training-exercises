@@ -15,9 +15,9 @@ def get_python_execution_result(file, language):
     return output
 
 
-def execute_python(file):
-    file_name = file["path"].split("/")[-1]
-    subprocess.check_output(f"docker cp {file['path']} {CONFIGURATION['DOCKER-CONTAINER-ID']}:/{file_name}", shell=True)
+def execute_python(file_path):
+    file_name = file_path.split("/")[-1]
+    subprocess.check_output(f"docker cp {file_path} {CONFIGURATION['DOCKER-CONTAINER-ID']}:/{file_name}", shell=True)
     output = str(subprocess.check_output(f'docker exec {CONFIGURATION["DOCKER-CONTAINER-ID"]} python /{file_name}', shell=True, stderr=subprocess.STDOUT))[2:-3]
 
     return output
