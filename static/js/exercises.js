@@ -8,5 +8,5 @@ document.querySelector("form").addEventListener("submit", (e) => {
         return;
     }
 
-    window.location.pathname = `/exercises/${number}/${name}`;
+    window.location.pathname = `/exercises/${number}/${name.replaceAll(" ", "-")}`;
 });

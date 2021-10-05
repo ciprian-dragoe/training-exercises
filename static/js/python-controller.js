@@ -8,5 +8,5 @@ function runPython(code, result) {
 }
 
 function replaceWhiteSpace(input) {
-    return input.replace('\\n', '</br>')
+    return input.replaceAll('\\n', '</br>')
 }
