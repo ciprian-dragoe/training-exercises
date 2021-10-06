@@ -1,10 +1,10 @@
 function runSql(code, result) {
     if (result.error) {
-        printHtmlElement("query-result", buildErrorMessage(result.error))
+        printHtmlElement("code-result", buildErrorMessage(result.error))
     } else {
-        printHtmlElement("query-result", buildTable(result.output, "MyQuery"))
+        printHtmlElement("code-result", buildTable(result.output, "MyQuery"))
     }
-    printHtmlElement("query-result", buildTable(result.output, "MyQuery"))
+    printHtmlElement("code-result", buildTable(result.output, "MyQuery"))
 }
 
 function buildErrorMessage(errorMessage) {

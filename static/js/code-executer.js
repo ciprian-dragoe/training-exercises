@@ -6,6 +6,8 @@ function applyRunCodeEvents() {
 }
 
 async function runCode(button) {
+    const codeResult = document.getElementById("code-result")
+    codeResult ? codeResult.innerHTML = "" : 0
     const language = button.dataset.executeLanguage
     const code = document.querySelector(`[data-language=${language}]`).value
     button.disabled = true

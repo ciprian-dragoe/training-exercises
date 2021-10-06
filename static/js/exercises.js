@@ -4,7 +4,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
     const number = e.target.number.value;
 
     if (!name) {
-        alert("Name must not be empty!");
+        alert("You must enter your name before starting the exercise !");
         return;
     }
     window.location.pathname = `/exercises/${number}/${name}`;

@@ -19,7 +19,7 @@ body {
     height: 250px;
 }
 
-#query-result {
+#code-result {
     margin-top: 30px;
     display: flex;
     flex-direction: row;
