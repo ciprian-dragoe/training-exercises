@@ -30,7 +30,7 @@ def execute_py(code, user, exercise_number):
 
 
 def generate_sanitized_python_file(file):
-    sanitized_python_file_path = file["path"] + ".sanitized"
+    sanitized_python_file_path = file["path"][:-file["path"].rfind(".")] + "_sanitized"
     sanitized_code = python_infinite_loop_sanitize_start + file["content"]
     with open(sanitized_python_file_path, "w") as sanitized_file:
         sanitized_file.write(sanitized_code)
