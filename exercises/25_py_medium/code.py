@@ -5,7 +5,7 @@ def sum_positive_numbers(items):
 
 
 a = [1, -8, -3, 4]
-print(sum_positive_numbers(a)) # should print 15
+print(sum_positive_numbers(a)) # should print 5
 
 
 a = [-1, -8, -3, -4]
