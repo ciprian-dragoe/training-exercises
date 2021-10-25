@@ -5,4 +5,4 @@ def capitalize(word):
 
 
 print(capitalize("peter")) # should print pEtEr
-
+print(capitalize("Andr3i")) # should print ANdR3I

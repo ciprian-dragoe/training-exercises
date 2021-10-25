@@ -4,4 +4,5 @@ def print_hello_message(name):
     pass
 
 
-print_hello_message("Neo")
+print_hello_message("Neo") # "Hello Neo"
+print_hello_message("Gigel") # "Hello Gigel"
