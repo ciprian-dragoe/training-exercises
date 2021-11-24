@@ -1,3 +1,6 @@
-# print on a separate line using a while statement
-# all the numbers in the list
-a = [8, 3, 11]
+# print on a separate line using a for statement
+# all the names in the list in the format:
+# Name: Andrew
+# Name: Mickey
+# Name: Donald
+a = ["Andrew", "Mickey", "Donald"]
