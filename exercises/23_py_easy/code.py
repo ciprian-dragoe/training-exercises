@@ -1,14 +1,8 @@
-# write a function that returns the length of
-# 2 strings received as parameters
-def strings_length(a, b):
-    pass
-
-
+# given the 2 strings (a & b) print many characters each have
 a = "hello"
 b = "world"
-print(strings_length(a, b)) # should print 10
-
+# should print 10
 
 a = ""
 b = "1234"
-print(strings_length(a, b)) # should print 4
+# should print 4
