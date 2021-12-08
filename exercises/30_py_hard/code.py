@@ -1,8 +1,22 @@
-# write a function that receives a string and capitalizes
-# the letters ar even positions
-def capitalize(word):
-    pass
+# write the code that prints each letter of the string in 
+# the variable 'name' and for the letters on even positions
+# they are printed as capital letters. Even is considered from
+# the human perspective (not the computer that starts from 0 couting)
+# HINT: use the upper() function
 
+name = "peter"
+# should print:
+# p
+# E
+# t
+# E
+# r
 
-print(capitalize("peter")) # should print pEtEr
-print(capitalize("Andr3i")) # should print ANdR3I
+name = "Andr3i"
+# should print
+# A
+# N
+# d
+# R
+# 3
+# I

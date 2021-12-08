@@ -1,11 +1,16 @@
-# write a function that receives a string containing items
-# separated by `,` and then returns the sum of the items
-# that are numbers in the list
-def sum_numbers(items):
-    pass
+# write the code that transforms a string to a list
+# where the elements of the list are separated by 
+# a pattern you have to recognize
 
 
-print(sum_numbers("11, f, 22, 8")) # should print 41
-print(sum_numbers("a, f")) # should print 0
-print(sum_numbers("")) # should print 0
+# HINT: use the split() function
+a = "11|12|78"
+b = a.split("|")
+print(b)
 
+a = "11*|*22*|8" 
+# should print: ['11', '22', '8']
+
+
+a = "11, 22, 8" 
+# should print: ['11', '22', '8']
