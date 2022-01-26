@@ -29,6 +29,11 @@ def execute_py(code, user, exercise_number):
         return {"error": e.args[0]}
 
 
+def execute_html(code, user, exercise_number):
+    exercises.write_file(user, exercise_number, "html", code)
+    return {"output": code}
+
+
 def generate_sanitized_python_file(file):
     sanitized_python_file_path = file["path"][:file["path"].rfind(".")] + "_sanitized"
     sanitized_code = python_infinite_loop_sanitize_start + file["content"]
@@ -42,8 +47,15 @@ def execute_js(code, user, exercise_number):
     return {"output": "True"}
 
 
+def execute_css(code, user, exercise_number):
+    exercises.write_file(user, exercise_number, "css", code)
+    return {"output": code}
+
+
 FACTORY = {
     "sql": execute_sql,
+    "css": execute_css,
+    "html": execute_html,
     "js": execute_js,
     "py": execute_py
 }

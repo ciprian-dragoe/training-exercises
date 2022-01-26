@@ -24,8 +24,22 @@ def read_py(user, exercise_number):
     return file_content
 
 
+def read_css(user, exercise_number):
+    file_path = exercises.get_exercise_path("code.css", user, exercise_number)
+    file_content = exercises.read_file(file_path)
+    return file_content
+
+
+def read_html(user, exercise_number):
+    file_path = exercises.get_exercise_path("code.html", user, exercise_number)
+    file_content = exercises.read_file(file_path)
+    return file_content
+
+
 FACTORY = {
     "sql": read_sql,
+    "html": read_html,
+    "css": read_css,
     "py": read_py,
     "js": read_js
 }

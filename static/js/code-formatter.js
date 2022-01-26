@@ -82,6 +82,8 @@ const keyActionFactory = {
 const blockTypesFactory = {
     "js": "{",
     "py": ":",
+    "css": "{",
+    "html": ">",
     "sql": "*"
 }
 
