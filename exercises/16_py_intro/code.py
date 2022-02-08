@@ -1,4 +1,11 @@
-# using the print function display on a separate line
-# the numbers 1, 2, 3, 4, 5 by accessing the index
-# in the variable 'a'
-a = [1, 2, 3, 4, 5]
+# print the sum of 23424 and 78211
+
+# given the list in the variable "list", print the 
+# element "3" from the list by accesing it's index
+list = [1, 2, 3, 4]
+
+# given the variables "list1" and "list2" that each contain a 
+# list print a list containing all the elements of list1 & list2
+# the output should print [8, 7, 6, 1, 3, 4]
+list1 = [1, 3, 4]
+list2 = [8,7,6]
