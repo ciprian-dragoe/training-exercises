@@ -1,10 +1,10 @@
-let studentCodeUlr = ''
-const codeAreaElement = document.getElementById("student-code-area")
+let studentCodeUrl = ''
+const codeAreaElement = document.getElementById("code-viewer")
 codeAreaElement.value = ""
 
 async function displayStudentCode() {
-    if (studentCodeUlr){
-        const request = await fetch(studentCodeUlr)
+    if (studentCodeUrl){
+        const request = await fetch(studentCodeUrl)
         if (request.status === 200) {
             const data = await request.json()
             codeAreaElement.value = data.code
@@ -15,7 +15,7 @@ async function displayStudentCode() {
 function setStudentCodeFetchHook(user, exNum) {
     console.log(user, exNum)
     const language = exNum.split("_")[1]
-    studentCodeUlr = `/api/language/${language}/read/${user}/${exNum}`
+    studentCodeUrl = `/api/language/${language}/read/${user}/${exNum}`
     displayStudentCode()
 }
 
@@ -37,15 +37,15 @@ function displayActiveExercises(exercises) {
     for (let user of users) {
         const exerciseNumbers = exercises.filter(e => e.user === user).map(e => e.exerciseNumber)
         const links = exerciseNumbers.map(exNum => `
-            <div>
-                <button onclick="viewStudentCodingArea('${user}', '${exNum}')">Go to exercise</button>
-                <button onclick="setStudentCodeFetchHook('${user}', '${exNum}')">View solution</button>
-                ${exNum}
+            <div class="mb-2">
+                <button class="btn btn-light" onclick="viewStudentCodingArea('${user}', '${exNum}')">Go to exercise</button>
+                <button class="btn btn-light" onclick="setStudentCodeFetchHook('${user}', '${exNum}')">View solution</button>
+                <span>${exNum}</span>
             </div>`
         ).join("")
         result += `
-            <div class="card">
-              <div class="card-body">
+            <div class="card mb-2">
+              <div class="card-body bg-info">
                 <h5 class="card-title">${user}</h5>
                 <p class="card-text">${links}</p>
               </div>
