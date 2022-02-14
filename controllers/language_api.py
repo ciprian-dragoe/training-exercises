@@ -19,7 +19,6 @@ def get_language(user, exercise_number, language_type):
     try:
         factory = language_reader_factory.manufacture(language_type)
         result = factory(user, exercise_number)
-
         return jsonify({"code": result})
     except Exception as e:
         return jsonify(e.args[0]), 203
