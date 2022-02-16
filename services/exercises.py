@@ -31,13 +31,14 @@ def create_from_template_if_not_exist(template, file_name, exercise_number):
 def get_exercise_path(template, user_id, exercise_number):
     extension = template.split(".")[-1]
     file_name = template.split("/")[-1].split(".")[0]
-    return f"templates/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
+    if is_html_template(file_name, extension):
+        return f"templates/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
+    else:
+        return f"static/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
 
 
-def get_code_path(template, user_id, exercise_number):
-    extension = template.split(".")[-1]
-    file_name = template.split("/")[-1].split(".")[0]
-    return f"static/exercises/{user_id}-{exercise_number}-{file_name}.{extension}"
+def is_html_template(file_name, extension):
+    return extension == "html" and file_name == 'index'
 
 
 def get_active_exercises():
