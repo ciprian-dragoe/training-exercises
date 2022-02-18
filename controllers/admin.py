@@ -40,9 +40,9 @@ def logout_admin():
 @admin_route.route("/active-projects")
 def get_active_projects():
     if "is-admin-logged" in session.keys():
-        docker.initialize()
-        SET_TIMEOUT.clear()
-        SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER-KILL-TIMEOUT-SECONDS"]))
+        # docker.initialize()
+        # SET_TIMEOUT.clear()
+        # SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER-KILL-TIMEOUT-SECONDS"]))
         # print("keep alive docker")
         projects = exercises.get_active_exercises()
         return jsonify(projects)

@@ -55,4 +55,4 @@ function displayActiveExercises(exercises) {
 }
 
 displayActiveProjects()
-setInterval(displayActiveProjects, 10000)
+// setInterval(displayActiveProjects, 10000)
