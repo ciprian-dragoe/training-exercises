@@ -1,0 +1,53 @@
+{% extends "exercise_template.html" %}
+
+{% block extra_imports %}
+<script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/html-controller.js') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+<div style="display: flex">
+    <div style="display: flex; flex-direction: column; margin-bottom: 30px; width: 50%">
+        <button data-execute-language="html" data-execute-callback="runHtml">Execute HTML</button>
+        <textarea data-language="html" style="height: 60vh; font-size: 15px"></textarea>
+    </div>
+
+    <div id="code-result" style="width: 50%; margin-left: 10px"></div>
+</div>
+<h1></h1>
+    <h1 style="color: red">Ciprian Dragoe</h1>
+    <div style="background: green">Tara: Middle Earth</div>
+    <div style="background: yellow">Strada Intergalactica</div>
+    <div style="background: darkviolet">Numarul: 42</div>
+    <div>Limbi cunoscute:</div>
+    <ol style="font-size: 10px">
+        <li>Romanian</li>
+        <li>Klingonian</li>
+    </ol>
+    <p style="margin-top: 30px"><i>Educatie:</i></p>
+    <ul style="font-weight: bold">
+        <li>Lupte cu lightsaber-ul la universitatea din Mordor</li>
+        <li>Modelare in lut la universitatea de Metal</li>
+    </ul>
+    <div><u>Experienta de Lucru</u></div>
+    <table style="border: 3px solid red">
+        <tr>
+            <td>Loc de munca</td>
+            <td>Perioada</td>
+        </tr>
+        <tr>
+            <td>Copernicus Inc</td>
+            <td>1008-1009</td>
+        </tr>
+        <tr>
+            <td>Freelancing</td>
+            <td>1009-2100</td>
+        </tr>
+        <tr>
+            <td>Programare</td>
+            <td>2100-Prezent</td>
+        </tr>
+    </table>
+
+{% endblock %}
