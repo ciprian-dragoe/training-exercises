@@ -1,0 +1,62 @@
+{% extends "exercise_template.html" %}
+
+{% block extra_imports %}
+<script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/html-controller.js') }}" defer></script>
+{% endblock %}
+
+{% block body_content %}
+<div style="display: flex">
+    <div style="display: flex; flex-direction: column; margin-bottom: 30px; width: 50%">
+        <button data-execute-language="html" data-execute-callback="runHtml">Execute HTML</button>
+        <textarea data-language="html" style="height: 60vh; font-size: 15px"></textarea>
+    </div>
+
+    <div id="code-result" style="width: 50%; margin-left: 10px"></div>
+</div>
+<h1></h1>
+<a href="www.google.com">Back to Table of Content</a>
+<h1>Cherry Pineapple Bologna</h1>
+<img alt="Cherry Pineapple Bologna"
+    src="https://media.istockphoto.com/photos/generic-modern-suv-car-in-concrete-garage-picture-id1307086567?b=1&k=20&m=1307086567&s=170667a&w=0&h=NjcM6LIOkmfhyqH-zrbFU7pHCPxIABvNhWaOElm_P-E=">
+<h2>Ingredients</h2>
+<ul>
+    <li><em>1 pound</em> ring bologna</li>
+    <li>Potato Buds instant puffs (enough for 4 servings)</li>
+    <li><em>1/2 cup</em> crushed pineapple</li>
+    <li><em>1/4 cup</em> coarsely chopped maraschino cherries</li>
+    <li><em>1/4 cup</em> light corn syrup</li>
+    <li><em>2 tabelspoons</em> white vinegar</li>
+    <li><em>1/4 teaspoon</em> cloves</li>
+    <li><em>2 drops</em> red food color</li>
+    <li><em>1 1/2 teaspoons</em> water</li>
+    <li><em>1 1/2 teaspoons</em> cornstarch</li>
+</ul>
+<h2>Preparation</h2>
+<ol>
+    <li>
+        If necessary remove casing from <strong>bologna</strong>; arrange <strong>bologna</strong> in ungreased
+        9-inch pie pan.<br>
+        Cut ring diagonally at 2-inch intervals, being careful not to cut completely through.<br>
+        Separate cuts and spoon in part of <strong>glaze</strong>.<br>
+        Spread remaining glaze on top.
+    </li>
+    <li>
+        Heat oven to 400°.
+        Prepare <strong>Potato Buds</strong> instant puffs as directed on package.<br>
+        Mound <strong>potatoes</strong> in center of ring.<br>
+        Bake 20 minutes or until <strong>potatoes</strong> are light brown.
+    </li>
+    <li>
+        Heat <strong>pineapple</strong>, <strong>cherries</strong>, <strong>corn syrup</strong>,
+        <strong>vinegar</strong>, <strong>cloves</strong> and <strong>food color</strong> to boiling, stirring
+        occasionally.<br>
+        Reduce heat; simmer 15 minutes.<br>
+        Blend <strong>water</strong> and <strong>cornstarch</strong>; stir into <strong>fruit</strong>.<br>
+        Cook, stirring constantly, until mixture thickens and boils.<br>
+        Boil and stir 1 minute.
+    </li>
+</ol>
+
+{% endblock %}
