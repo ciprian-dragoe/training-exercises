@@ -1,22 +1,17 @@
 # write the code that prints each letter of the string in 
-# the variable 'name' and for the letters on even positions
-# they are printed as capital letters. Even is considered from
-# the human perspective (not the computer that starts from 0 couting)
-# HINT: use the upper() function
+# the variable 'name' only if it is part of the list
+# contained in the variable 'characters_to_show'
+# HINT: use a for loop to iterate through all the letters
+# and in each iteration check if that letter is part of
+# the list characters_to_show
 
+characters_to_show = ["e", "a"]
 name = "peter"
 # should print:
-# p
-# E
-# t
-# E
-# r
+# e
+# e
 
+characters_to_show = ["e", "n"]
 name = "Andr3i"
 # should print
-# A
-# N
-# d
-# R
-# 3
-# I
+# n
