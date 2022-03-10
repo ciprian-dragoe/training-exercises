@@ -10,6 +10,8 @@ async function runCode(button) {
     codeResult ? codeResult.innerHTML = "" : 0
     const language = button.dataset.executeLanguage
     const code = document.querySelector(`[data-language=${language}]`).value
+        .normalize('NFKD')
+        .replace(/[^\w]/g, '')
     button.disabled = true
     const result = await executeCodeRemotely(code, language)
     button.disabled = false
