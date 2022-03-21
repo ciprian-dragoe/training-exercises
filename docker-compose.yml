@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  db-admin:
+    container_name: db_admin
+    build: ./docker/postgress-admin
+    volumes:
+      - admin:/var/lib/postgresql/data
+      - ./docker/postgress-admin/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      POSTGRES_USER: ${ADMIN_USER}
+      POSTGRES_PASSWORD: ${ADMIN_PASS}
+      POSTGRES_DB: ${ADMIN_DBNAME}
+    ports:
+      - ${ADMIN_PORT}:5432
+  language-pg:
+    build: ./docker/postgress-practice
+    volumes:
+      - practice:/var/lib/postgresql/data
+      - ./docker/postgress-practice/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      POSTGRES_USER: ${PRACTICE_USER}
+      POSTGRES_DB: ${PRACTICE_DBNAME}
+      POSTGRES_PASSWORD: ${PRACTICE_PASS}
+    ports:
+      - ${PRACTICE_PORT}:5432
+    command:
+      - echo "CONTAINER IS STOPPED AS IT WILL BE STARTED BY ADMIN"
+  python-server:
+    depends_on:
+      - db-admin
+    build:
+      context: ./
+      dockerfile: ./docker/python-server/Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+
+
+volumes:
+  admin:
+  practice:
