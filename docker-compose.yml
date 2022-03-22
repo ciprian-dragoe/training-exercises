@@ -2,10 +2,9 @@ version: '3.8'
 services:
   db-admin:
     container_name: db_admin
-    build: ./docker/postgress-admin
+    build: ./docker-services/postgress-admin
     volumes:
       - admin:/var/lib/postgresql/data
-      - ./docker/postgress-admin/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${ADMIN_USER}
       POSTGRES_PASSWORD: ${ADMIN_PASS}
@@ -13,10 +12,10 @@ services:
     ports:
       - ${ADMIN_PORT}:5432
   language-pg:
-    build: ./docker/postgress-practice
+    build: ./docker-services/postgress-practice
     volumes:
       - practice:/var/lib/postgresql/data
-      - ./docker/postgress-practice/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker-services/postgress-practice/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${PRACTICE_USER}
       POSTGRES_DB: ${PRACTICE_DBNAME}
@@ -30,11 +29,24 @@ services:
       - db-admin
     build:
       context: ./
-      dockerfile: ./docker/python-server/Dockerfile
+      dockerfile: ./app/Dockerfile
+    environment:
+      ADMIN_DBNAME: ${ADMIN_DBNAME}
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASS: ${ADMIN_PASS}
+      ADMIN_PORT: ${ADMIN_PORT}
+      PRACTICE_DBNAME: ${PRACTICE_DBNAME}
+      PRACTICE_USER: ${ADMIN_USER}
+      PRACTICE_PASS: ${ADMIN_PASS}
+      PRACTICE_PORT: ${ADMIN_PORT}
+      ADMIN_DASHBOARD_PASS: ${ADMIN_DASHBOARD_PASS}
+      DOCKER_KILL_TIMEOUT_SECONDS: ${DOCKER_KILL_TIMEOUT_SECONDS}
+      RUNNING_MODE: ${RUNNING_MODE}
     volumes:
-      - .:/app
+      - ./app:/app
     ports:
-      - "5000:5000"
+      - "5000:80"
+    command: ["python", "/app/app.py"]
 
 
 volumes:
