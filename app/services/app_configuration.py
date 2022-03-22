@@ -5,7 +5,7 @@ load_dotenv()
 
 
 def initialize(app):
-    CONFIGURATION["RUNNING-MODE"] = os.environ.get("RUNNING_MODE")
+    CONFIGURATION["FLASK_ENV"] = os.environ.get("FLASK_ENV")
     CONFIGURATION["DOCKER-IMAGE-NAME"] = os.environ.get("DOCKER_IMAGE_NAME")
     CONFIGURATION["MY_PSQL_DBNAME"] = os.environ.get("MY_PSQL_DBNAME")
     CONFIGURATION["MY_PSQL_USER"] = os.environ.get("MY_PSQL_USER")

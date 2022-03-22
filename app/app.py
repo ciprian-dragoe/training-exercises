@@ -1,5 +1,5 @@
 import atexit
-from flask import Flask, redirect
+from flask import Flask, redirect, render_template
 
 
 from services import app_configuration
@@ -16,7 +16,7 @@ app = Flask("exercises")
 
 @app.route("/")
 def index():
-    return "merge :)"
+    return "12345"
     return redirect("/exercises/")
 
 
@@ -34,4 +34,4 @@ def de_initialize_app():
 atexit.register(de_initialize_app)
 initialize_app()
 if __name__ == "__main__":
-    app.run(debug=CONFIGURATION["RUNNING-MODE"] == "dev", port=80, host='0.0.0.0')
+    app.run(debug=CONFIGURATION["FLASK_ENV"] == "development", port=80, host='0.0.0.0')

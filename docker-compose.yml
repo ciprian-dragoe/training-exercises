@@ -22,8 +22,7 @@ services:
       POSTGRES_PASSWORD: ${PRACTICE_PASS}
     ports:
       - ${PRACTICE_PORT}:5432
-    command:
-      - echo "CONTAINER IS STOPPED AS IT WILL BE STARTED BY ADMIN"
+    command: ["echo", "CONTAINER IS STOPPED AS IT WILL BE STARTED BY ADMIN"]
   python-server:
     depends_on:
       - db-admin
@@ -41,13 +40,11 @@ services:
       PRACTICE_PORT: ${ADMIN_PORT}
       ADMIN_DASHBOARD_PASS: ${ADMIN_DASHBOARD_PASS}
       DOCKER_KILL_TIMEOUT_SECONDS: ${DOCKER_KILL_TIMEOUT_SECONDS}
-      RUNNING_MODE: ${RUNNING_MODE}
+      FLASK_ENV: ${RUNNING_MODE}
     volumes:
       - ./app:/app
     ports:
       - "5000:80"
-    command: ["python", "/app/app.py"]
-
 
 volumes:
   admin:
