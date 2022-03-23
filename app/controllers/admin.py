@@ -1,5 +1,4 @@
 from flask import Blueprint, request, redirect, session, render_template, url_for, jsonify
-import bcrypt
 
 
 from services import docker, exercises
@@ -15,7 +14,7 @@ def display_admin_login():
     if request.method == "GET":
         return render_template("admin-login.html")
     else:
-        if verify_password(request.form['pass'], CONFIGURATION['ADMIN-HASHED-PASSWORD']):
+        if request.form['pass'] == CONFIGURATION['ADMIN_DASHBOARD_PASS']:
             session["is-admin-logged"] = 1
             return redirect(url_for("admin.display_admin_dashboard"))
         return redirect(url_for("admin.display_admin_login"))
@@ -43,11 +42,6 @@ def get_active_projects():
         docker.initialize()
         SET_TIMEOUT.clear()
         SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER-KILL-TIMEOUT-SECONDS"]))
-        # print("keep alive docker")
         projects = exercises.get_active_exercises()
         return jsonify(projects)
     return "not logged"
-
-
-def verify_password(plain_text_password, hashed_password):
-    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_password)

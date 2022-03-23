@@ -29,7 +29,6 @@ DOCKER_EXECUTION_TEMPLATES = {
 
 
 def kill_existing_containers():
-    # print("!!! STOPPING DOCKER !!!")
     if CONFIGURATION["DOCKER-CONTAINER-ID"]:
         subprocess.check_output(f'docker kill {CONFIGURATION["DOCKER-CONTAINER-ID"]}', shell=True)
     CONFIGURATION["DOCKER-CONTAINER-ID"] = None
@@ -38,4 +37,4 @@ def kill_existing_containers():
 def initialize():
     # print(f'docker container active: {CONFIGURATION["DOCKER-CONTAINER-ID"]}')
     if not CONFIGURATION["DOCKER-CONTAINER-ID"]:
-        CONFIGURATION["DOCKER-CONTAINER-ID"] = create_python_container(CONFIGURATION["DOCKER-IMAGE-NAME"])
+        CONFIGURATION["DOCKER-CONTAINER-ID"] = create_python_container(CONFIGURATION["DOCKER_IMAGE_NAME"])
