@@ -1,3 +1,3 @@
 CONFIGURATION = {
-    "DOCKER-CONTAINER-ID": None,
+    "DOCKER_CONTAINER_ID": None,
 }

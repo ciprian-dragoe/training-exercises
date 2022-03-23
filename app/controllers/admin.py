@@ -41,7 +41,7 @@ def get_active_projects():
     if "is-admin-logged" in session.keys():
         docker.initialize()
         SET_TIMEOUT.clear()
-        SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER-KILL-TIMEOUT-SECONDS"]))
+        SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER_KILL_TIMEOUT_SECONDS"]))
         projects = exercises.get_active_exercises()
         return jsonify(projects)
     return "not logged"
