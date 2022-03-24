@@ -1,9 +1,8 @@
 .idea/
 .vs/
 .vscode/
-*.pyc
-venv/
+app/venv/
 __pycache__/
 .env
-templates/exercises/*.html
-static/exercises/
+app/templates/exercises/*.html
+app/static/exercises/

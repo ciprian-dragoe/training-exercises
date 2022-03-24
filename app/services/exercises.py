@@ -48,7 +48,7 @@ def get_active_exercises():
 
 
 def write_file(user, exercise_number, extension, content):
-    file_path = f"static/exercises/{user}-{exercise_number}-code.{extension}"
+    file_path = f"./static/exercises/{user}-{exercise_number}-code.{extension}"
     with open(file_path, "w") as file:
         file.write(content)
     return {

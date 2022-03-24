@@ -30,7 +30,10 @@ DOCKER_EXECUTION_TEMPLATES = {
 
 def kill_existing_containers():
     if CONFIGURATION["DOCKER_CONTAINER_ID"]:
-        subprocess.check_output(f'docker kill {CONFIGURATION["DOCKER_CONTAINER_ID"]}', shell=True)
+        try:
+            subprocess.check_output(f'docker kill {CONFIGURATION["DOCKER_CONTAINER_ID"]}', shell=True)
+        except:
+            pass
     CONFIGURATION["DOCKER_CONTAINER_ID"] = None
 
 
