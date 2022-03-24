@@ -33,4 +33,4 @@ def de_initialize_app():
 atexit.register(de_initialize_app)
 initialize_app()
 if __name__ == "__main__":
-    app.run(debug=CONFIGURATION["FLASK_ENV"] == "development", port=80, host='0.0.0.0')
+    app.run(debug=False, port=80, host='0.0.0.0')
