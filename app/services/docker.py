@@ -1,16 +1,19 @@
-import subprocess
 from data.configuration import CONFIGURATION
 
 
-def get_container_id_from(image_name, command_start_container="tail"):
-    # return str(subprocess.check_output(f"docker run -td {extra_arguments} {image_name} tail", shell=True))[2:-3]
+import os
+import subprocess
+
+
+def get_container_id_from(image_name, command_start_container="", arguments=""):
     try:
         container_id = str(subprocess.check_output(f"docker ps | grep {image_name}", shell=True))[2:-3].split(" ")[0]
         return container_id
     except:
-        print(f"THERE WAS A PROBLEM FINDING CONTAINER FROM IMAGE {image_name}")
-        container_id = str(subprocess.check_output(f"docker run -td {image_name} {command_start_container}", shell=True))[2:-3]
+        print(f"THERE WAS A PROBLEM FINDING CONTAINER OF IMAGE {image_name}")
+        container_id = str(subprocess.check_output(f"docker run --rm -td {arguments} {image_name} {command_start_container}", shell=True))[2:-3]
         return container_id
+
 
 def get_python_execution_result(file, language):
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
@@ -44,13 +47,13 @@ def stop_language_containers():
 
 def stop_container(container_id):
     try:
-        subprocess.check_output(f'docker container stop {CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]}', shell=True)
+        subprocess.check_output(f'docker container stop {container_id}', shell=True)
     except:
         print(f"THERE WAS A PROBLEM STOPPING CONTAINER WITH ID {container_id}")
 
 
 def initialize():
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
-        CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"] = get_container_id_from("training-exercises_language-py")
+        CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"] = get_container_id_from("language_py", "tail")
     if not CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"]:
-        CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"] = get_container_id_from("training-exercises_language-pg", "")
+        CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"] = get_container_id_from("language_pg", "", f"-e POSTGRES_PASSWORD={CONFIGURATION['PRACTICE_PASS']} -e POSTGRES_DB={CONFIGURATION['PRACTICE_DBNAME']} -e POSTGRES_USER={CONFIGURATION['PRACTICE_USER']} --name language_pg --network {CONFIGURATION['NETWORK_NAME']}")

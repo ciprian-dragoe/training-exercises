@@ -1,37 +1,46 @@
 version: '3.8'
 services:
   db-admin:
-    container_name: db_admin
-    build: ./docker-services/postgress-admin
+    image: admin_db
+    build: ./docker-services/admin-db
+    ports:
+      - ${ADMIN_PORT}:5432
     volumes:
       - admin:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${ADMIN_USER}
       POSTGRES_PASSWORD: ${ADMIN_PASS}
       POSTGRES_DB: ${ADMIN_DBNAME}
-    ports:
-      - ${ADMIN_PORT}:5432
   language-py:
-    container_name: language_py
-    build: ./docker-services/python-practice
+    image: language_py
+    build: ./docker-services/language-py
+    command: ["echo", "### TURNED OFF WAITING FOR ADMIN TO START IT ###"]
   language-pg:
-    container_name: language_pg
-    build: ./docker-services/postgress-practice
+    image: language_pg
+    build:
+      context: ./
+      dockerfile: ./docker-services/language-pg
+    ports:
+      - ${PRACTICE_PORT}:5432
     volumes:
       - ./docker-services/postgress-practice/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${PRACTICE_USER}
       POSTGRES_DB: ${PRACTICE_DBNAME}
       POSTGRES_PASSWORD: ${PRACTICE_PASS}
-    ports:
-      - ${PRACTICE_PORT}:5432
+    command: ["echo", "### TURNED OFF WAITING FOR ADMIN TO START IT ###"]
   python-server:
-    depends_on:
-      - db-admin
+    image: python_server
     build:
       context: ./
       dockerfile: ./app/Dockerfile
+    ports:
+      - "5000:80"
+    volumes:
+      - ./app:/app
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
+      NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
       ADMIN_HOST: ${ADMIN_HOST}
       ADMIN_PORT: 5432
       ADMIN_USER: ${ADMIN_USER}
@@ -46,12 +55,8 @@ services:
       DOCKER_KILL_TIMEOUT_SECONDS: ${DOCKER_KILL_TIMEOUT_SECONDS}
       APP_SECRET_KEY: ${APP_SECRET_KEY}
       FLASK_ENV: ${RUNNING_MODE}
-    volumes:
-      - ./app:/app
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "5000:80"
+    depends_on:
+      - db-admin
 
 volumes:
   admin:
-  practice:

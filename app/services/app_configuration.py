@@ -6,6 +6,7 @@ load_dotenv()
 
 def initialize(app):
     app.config['SECRET_KEY'] = os.environ.get("APP_SECRET_KEY")
+    CONFIGURATION["NETWORK_NAME"] = os.environ.get("NETWORK_NAME")
     CONFIGURATION["FLASK_ENV"] = os.environ.get("FLASK_ENV")
     CONFIGURATION["PRACTICE_DBNAME"] = os.environ.get("PRACTICE_DBNAME")
     CONFIGURATION["PRACTICE_USER"] = os.environ.get("PRACTICE_USER")
