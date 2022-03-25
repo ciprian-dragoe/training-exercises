@@ -63,6 +63,9 @@ function buildTable(tableData, tableName) {
 
 async function appendQueryTable(placementId, sqlCode, tableName) {
     let data = await executeCodeRemotely(sqlCode, "sql")
+    if (data.error) {
+        printHtmlElement("code-result", buildErrorMessage(data.error))
+    }
     addHtmlElement(placementId, buildTable(data.output, tableName))
 }
 

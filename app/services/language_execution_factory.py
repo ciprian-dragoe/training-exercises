@@ -1,3 +1,6 @@
+from data.configuration import CONFIGURATION
+
+
 import subprocess
 
 from services import exercises, database, docker
@@ -11,6 +14,8 @@ def manufacture(language_type):
 def execute_sql(code, user, exercise_number):
     exercises.write_file(user, exercise_number, "sql", code)
     try:
+        if not CONFIGURATION['LANGUAGE_PG_CONTAINER_ID']:
+            raise Exception("Admin is not logged in => code execution is disabled")
         query_result = database.execute_select(code)
         return {"output": query_result}
     except Exception as e:
