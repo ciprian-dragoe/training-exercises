@@ -14,12 +14,10 @@ services:
   language-py:
     container_name: language_py
     build: ./docker-services/python-practice
-    command: [ "echo", "CONTAINER IS STOPPED AS IT WILL BE STARTED BY ADMIN" ]
   language-pg:
     container_name: language_pg
     build: ./docker-services/postgress-practice
     volumes:
-      - practice:/var/lib/postgresql/data
       - ./docker-services/postgress-practice/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${PRACTICE_USER}
@@ -27,7 +25,6 @@ services:
       POSTGRES_PASSWORD: ${PRACTICE_PASS}
     ports:
       - ${PRACTICE_PORT}:5432
-    command: ["echo", "CONTAINER IS STOPPED AS IT WILL BE STARTED BY ADMIN"]
   python-server:
     depends_on:
       - db-admin
@@ -35,16 +32,16 @@ services:
       context: ./
       dockerfile: ./app/Dockerfile
     environment:
-      ADMIN_DBNAME: ${ADMIN_DBNAME}
+      ADMIN_HOST: ${ADMIN_HOST}
+      ADMIN_PORT: 5432
       ADMIN_USER: ${ADMIN_USER}
       ADMIN_PASS: ${ADMIN_PASS}
-      ADMIN_HOST: ${ADMIN_HOST}
-      ADMIN_PORT: ${ADMIN_PORT}
-      PRACTICE_DBNAME: ${PRACTICE_DBNAME}
+      ADMIN_DBNAME: ${ADMIN_DBNAME}
+      PRACTICE_HOST: ${PRACTICE_HOST}
+      PRACTICE_PORT: 5432
       PRACTICE_USER: ${PRACTICE_USER}
       PRACTICE_PASS: ${PRACTICE_PASS}
-      PRACTICE_PORT: ${PRACTICE_PORT}
-      PRACTICE_HOST: ${PRACTICE_HOST}
+      PRACTICE_DBNAME: ${PRACTICE_DBNAME}
       ADMIN_DASHBOARD_PASS: ${ADMIN_DASHBOARD_PASS}
       DOCKER_KILL_TIMEOUT_SECONDS: ${DOCKER_KILL_TIMEOUT_SECONDS}
       APP_SECRET_KEY: ${APP_SECRET_KEY}

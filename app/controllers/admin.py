@@ -30,7 +30,7 @@ def display_admin_dashboard():
 
 @admin_route.route("/logout")
 def logout_admin():
-    docker.kill_existing_containers()
+    docker.stop_language_containers()
     session.pop('is-admin-logged', None)
     exercises.delete_all_exercise_files()
     return redirect(url_for("admin.display_admin_login"))
@@ -39,9 +39,12 @@ def logout_admin():
 @admin_route.route("/active-projects")
 def get_active_projects():
     if "is-admin-logged" in session.keys():
-        docker.initialize()
-        SET_TIMEOUT.clear()
-        SET_TIMEOUT.run(docker.kill_existing_containers, int(CONFIGURATION["DOCKER_KILL_TIMEOUT_SECONDS"]))
+        try:
+            docker.initialize()
+            SET_TIMEOUT.clear()
+            SET_TIMEOUT.run(docker.stop_language_containers, int(CONFIGURATION["DOCKER_KILL_TIMEOUT_SECONDS"]))
+        except:
+            print("THERE WAS A PROBLEM CONNECTING TO DOCKER")
         projects = exercises.get_active_exercises()
         return jsonify(projects)
     return "not logged"

@@ -2,9 +2,15 @@ import subprocess
 from data.configuration import CONFIGURATION
 
 
-def launch_container(image_name, extra_arguments=""):
-    return str(subprocess.check_output(f"docker run -td {extra_arguments} {image_name} tail", shell=True))[2:-3]
-
+def get_container_id_from(image_name, command_start_container="tail"):
+    # return str(subprocess.check_output(f"docker run -td {extra_arguments} {image_name} tail", shell=True))[2:-3]
+    try:
+        container_id = str(subprocess.check_output(f"docker ps | grep {image_name}", shell=True))[2:-3].split(" ")[0]
+        return container_id
+    except:
+        print(f"THERE WAS A PROBLEM FINDING CONTAINER FROM IMAGE {image_name}")
+        container_id = str(subprocess.check_output(f"docker run -td {image_name} {command_start_container}", shell=True))[2:-3]
+        return container_id
 
 def get_python_execution_result(file, language):
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
@@ -27,17 +33,24 @@ DOCKER_EXECUTION_TEMPLATES = {
 }
 
 
-def kill_existing_containers():
+def stop_language_containers():
     if CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
-        subprocess.check_output(f'docker kill {CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]}', shell=True)
+        stop_container(CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"])
     if CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"]:
-        subprocess.check_output(f'docker kill {CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"]}', shell=True)
+        stop_container(CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"])
     CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"] = None
     CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"] = None
 
 
+def stop_container(container_id):
+    try:
+        subprocess.check_output(f'docker container stop {CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]}', shell=True)
+    except:
+        print(f"THERE WAS A PROBLEM STOPPING CONTAINER WITH ID {container_id}")
+
+
 def initialize():
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
-        CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"] = launch_container("training-exercises_language-py")
+        CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"] = get_container_id_from("training-exercises_language-py")
     if not CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"]:
-        CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"] = launch_container("training-exercises_language-pg", f"-p {CONFIGURATION['PRACTICE_PORT']}:5432")
+        CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"] = get_container_id_from("training-exercises_language-pg", "")

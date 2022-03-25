@@ -1,3 +1,5 @@
+from data.configuration import CONFIGURATION
+
 import os
 import psycopg2
 import psycopg2.extras
@@ -14,11 +16,12 @@ def establish_connection(connection_data=None):
     if connection_data is None:
         connection_data = get_connection_data()
     try:
-        connect_str = "dbname={} user={} host={} password={}".format(
+        connect_str = "dbname={} user={} host={} password={} port={}".format(
             connection_data["dbname"],
             connection_data["user"],
             connection_data["host"],
             connection_data["password"],
+            connection_data["port"],
         )
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
@@ -29,21 +32,13 @@ def establish_connection(connection_data=None):
         print(e)
 
 
-def get_connection_data(db_name=None):
-    """
-    Give back a properly formatted dictionary based on the environment variables values which are started
-    with :MY__PSQL_: prefix
-
-    :db_name: optional parameter. By default it uses the environment variable value.
-    """
-    if db_name is None:
-        db_name = os.environ.get("PRACTICE_DBNAME")
-
+def get_connection_data():
     return {
-        "dbname": db_name,
-        "user": os.environ.get("PRACTICE_USER"),
-        "host": os.environ.get("PRACTICE_HOST"),
-        "password": os.environ.get("PRACTICE_PASS"),
+        "dbname": CONFIGURATION['PRACTICE_DBNAME'],
+        "user": CONFIGURATION['PRACTICE_USER'],
+        "host": CONFIGURATION["PRACTICE_HOST"],
+        "password": CONFIGURATION["PRACTICE_PASS"],
+        "port": CONFIGURATION["PRACTICE_PORT"],
     }
 
 
