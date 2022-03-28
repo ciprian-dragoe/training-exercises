@@ -2,9 +2,11 @@
 It's a front end site where user's solve a predefined list of exercises.
 
 ## Steps to start the project
-1. Make a copy of `env.template` as `.env` in the same folder (optionally you can set different values)
+1. Make a copy of `.env.template` as `.env` in the same folder (optionally you can set different values)
+* If you do not see the `.env.template` please make sure you have enabled from your operating system `show hidden files`
 2. Install Docker
-3. Open a terminal in the root project folder and type `docker-compose up` (this 1st time will take a while before starting)
+3. Open a terminal in the root project folder and type `docker-compose up` 
+* The first time it will take a while (approximately 10m) before starting because the dependencies are being downloaded
 
 ## What is the `Admin` interface for
 Non `js` code can only be executed while the admin is logged in.
