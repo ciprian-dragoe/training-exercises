@@ -8,5 +8,6 @@ ENV DOCKERVERSION=20.10.13
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
-RUN chmod 777 /app/start_server.sh
+COPY ./app/start_server.sh /app/start_server.sh
+RUN chmod +x /app/start_server.sh
 CMD ["/app/start_server.sh"]
