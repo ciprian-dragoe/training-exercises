@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db-admin:
+  admin-db:
     image: admin_db
     build:
       context: ./
@@ -9,6 +9,7 @@ services:
       - ${ADMIN_PORT}:5432
     volumes:
       - admin:/var/lib/postgresql/data
+      - ./docker-services/admin-db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${ADMIN_USER}
       POSTGRES_PASSWORD: ${ADMIN_PASS}
