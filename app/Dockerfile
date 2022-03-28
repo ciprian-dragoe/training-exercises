@@ -10,4 +10,4 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
   && rm docker-${DOCKERVERSION}.tgz
 COPY ./app/start_server.sh /app/start_server.sh
 RUN chmod +x /app/start_server.sh
-CMD ["/app/start_server.sh"]
+CMD ["chmod +x /app/start_server.sh && /app/start_server.sh"]
