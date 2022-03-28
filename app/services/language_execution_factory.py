@@ -16,7 +16,8 @@ def execute_sql(code, user, exercise_number):
     try:
         if not CONFIGURATION['LANGUAGE_PG_CONTAINER_ID']:
             raise Exception("Admin is not logged in => code execution is disabled")
-        query_result = database.execute_select(code)
+        connection = database.get_db_connection(database.DbConnection.language_pg)
+        query_result = database.execute_select(code, connection)
         return {"output": query_result}
     except Exception as e:
         return {"error": e.args[0]}
