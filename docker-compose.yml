@@ -58,7 +58,7 @@ services:
       APP_SECRET_KEY: ${APP_SECRET_KEY}
       FLASK_ENV: ${RUNNING_MODE}
     depends_on:
-      - db-admin
+      - admin-db
     command: > 
       bash -c "chmod +x /app/start_server.sh && /app/start_server.sh"
 
