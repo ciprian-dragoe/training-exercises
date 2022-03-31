@@ -41,8 +41,8 @@ def get_db_connection(connection_type):
         print(e)
 
 
-def execute_select(connection, statement, variables=None, fetchall=True):
+def execute(connection, statement, variables=None, should_return_output=True):
     with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
         cursor.execute(statement, variables)
-        result_set = cursor.fetchall() if fetchall else cursor.fetchone()
+        result_set = cursor.fetchall() if should_return_output else cursor.commit()
         return result_set
