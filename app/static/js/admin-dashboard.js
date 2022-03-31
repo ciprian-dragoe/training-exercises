@@ -2,45 +2,43 @@ let studentCodeUrl = ''
 const codeAreaElement = document.getElementById("code-viewer")
 codeAreaElement.value = ""
 
-async function displayStudentCode() {
+async function displayStudentFileContent() {
     if (studentCodeUrl){
         const request = await fetch(studentCodeUrl)
         if (request.status === 200) {
             const data = await request.json()
-            codeAreaElement.value = data.code
+            codeAreaElement.value = data.file.content
         }
     }
 }
 
-function setStudentCodeFetchHook(user, exNum) {
-    console.log(user, exNum)
-    const language = exNum.split("_")[1]
-    studentCodeUrl = `/api/language/${language}/read/${user}/${exNum}`
-    displayStudentCode()
+function viewStudentFileContent(userId, fileId) {
+    studentCodeUrl = `/api/users/${userId}/files/${fileId}`
+    displayStudentFileContent()
 }
 
-function viewStudentCodingArea(user, exNum) {
-    window.open(`/exercises/${exNum}/${user}`, '_blank').focus();
+function openStudentProject(userId, projectId) {
+    window.open(`/users/${userId}/projects/${projectId}`, '_blank').focus();
 }
 
 async function displayActiveProjects() {
-    const response = await fetch("/admin/active-projects")
-    const projects = await response.json()
-    displayActiveExercises(projects)
-    displayStudentCode()
+    const response = await fetch("/api/admin/users")
+    const users = await response.json()
+    displayUserProjects(users)
+    displayStudentFileContent()
 }
 
-function displayActiveExercises(exercises) {
+function displayUserProjects(projects) {
     let result = ""
-    const destinationElement = document.getElementById("active-exercises")
-    const users = [...new Set(exercises.map(e => e.user))]
+    const destinationElement = document.getElementById("active-projects")
+    const users = [...new Set(projects.map(p => p.user_name))]
     for (let user of users) {
-        const exerciseNumbers = exercises.filter(e => e.user === user).map(e => e.exerciseNumber)
-        const links = exerciseNumbers.map(exNum => `
+        const proj = projects.filter(p => p.user_name === user)
+        const links = proj.map(p => `
             <div class="mb-2">
-                <button class="btn btn-light" onclick="viewStudentCodingArea('${user}', '${exNum}')">Go to exercise</button>
-                <button class="btn btn-light" onclick="setStudentCodeFetchHook('${user}', '${exNum}')">View solution</button>
-                <span>${exNum}</span>
+                <button class="btn btn-light" onclick="openStudentProject('${p.prj_id}', '${p.prj_id}')">Go to project</button>
+                <button class="btn btn-light" onclick="viewStudentFileContent('${p.prj_id}', '${p.prj_id}')">View solution</button>
+                <span>${p.prj_name}</span>
             </div>`
         ).join("")
         result += `

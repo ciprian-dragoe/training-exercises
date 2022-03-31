@@ -1,6 +1,10 @@
+from data.configuration import CONFIGURATION
+
+
 import os
 from dotenv import load_dotenv
-from data.configuration import CONFIGURATION
+
+
 load_dotenv()
 
 
@@ -13,6 +17,11 @@ def initialize(app):
     CONFIGURATION["PRACTICE_HOST"] = os.environ.get("PRACTICE_HOST")
     CONFIGURATION["PRACTICE_PORT"] = os.environ.get("PRACTICE_PORT")
     CONFIGURATION["PRACTICE_PASS"] = os.environ.get("PRACTICE_PASS")
+    CONFIGURATION["ADMIN_DBNAME"] = os.environ.get("ADMIN_DBNAME")
+    CONFIGURATION["ADMIN_USER"] = os.environ.get("ADMIN_USER")
+    CONFIGURATION["ADMIN_HOST"] = os.environ.get("ADMIN_HOST")
+    CONFIGURATION["ADMIN_PORT"] = os.environ.get("ADMIN_PORT")
+    CONFIGURATION["ADMIN_PASS"] = os.environ.get("ADMIN_PASS")
     CONFIGURATION["ADMIN_DASHBOARD_PASS"] = os.environ.get("ADMIN_DASHBOARD_PASS")
     CONFIGURATION["DOCKER_KILL_TIMEOUT_SECONDS"] = os.environ.get("DOCKER_KILL_TIMEOUT_SECONDS")
 
