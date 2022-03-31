@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.jpg') }}" type="image/x-icon"/>
-    <link rel="stylesheet" href="/static/exercises/{{ file_name }}-{{ exercise_number }}-index.css"/>
-    <script src="/static/exercises/{{ file_name }}-{{ exercise_number }}-index.js" defer></script>
+    <link rel="stylesheet" href="/static/starter-projects/{{ template }}/index.css"/>
+    <script src="/static/starter-projects/{{ template }}/index.js" defer></script>
     {% block extra_imports %}{% endblock %}
 
-    <title>{{ exercise_number.replace("_", " ") }}</title>
+    <title>Learn</title>
 </head>
-<body data-user="{{ file_name }}" data-exercise-number="{{ exercise_number }}">
+<body>
     {% block body_content %}{% endblock %}
 </body>
 </html>

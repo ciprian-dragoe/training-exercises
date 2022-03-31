@@ -88,3 +88,6 @@ const blockTypesFactory = {
 }
 
 applyCodingInputEvents()
+
+
+// todo: combine language execution & reader to not make project calls 2 times

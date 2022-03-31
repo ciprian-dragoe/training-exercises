@@ -18,4 +18,4 @@ def delete_all():
 
 def get(user_id, project_id):
     connection = database.get_db_connection(database.DbConnection.admin)
-    return database.execute(connection, f"""select * from projects p where p.id = {project_id} and p.user_id = {user_id}""")
+    return database.execute(connection, f"""select * from projects p where p.id = {project_id} and p.user_id = {user_id}""")[0]

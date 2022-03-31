@@ -22,7 +22,7 @@ def get_users_with_projects():
 @api_admin.route("/projects/<int:project_id>/files", methods=["Get"])
 def get_files(project_id):
     if "is-admin-logged" in session.keys():
-        result = files.get_files_by_project(project_id)
+        result = files.get_files(project_id)
         return jsonify(result)
     else:
         response = jsonify({'message': 'Not authorized'})
