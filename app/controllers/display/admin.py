@@ -8,7 +8,7 @@ display_admin = Blueprint('admin', __name__)
 
 
 @display_admin.route("/login", methods=["GET", "POST"])
-def display_admin_login():
+def render_admin_login():
     if request.method == "GET":
         return render_template("admin-login.html")
     else:
@@ -19,7 +19,7 @@ def display_admin_login():
 
 
 @display_admin.route("/dashboard", methods=["GET"])
-def display_admin_dashboard():
+def render_admin_dashboard():
     if "is-admin-logged" in session.keys():
         return render_template("admin-dashboard.html")
     else:

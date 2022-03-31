@@ -1,7 +1,6 @@
 from data.entities import projects
 
 
-import os
 from os import path, listdir
 from glob import glob
 

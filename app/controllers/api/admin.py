@@ -39,7 +39,7 @@ def delete_projects():
         return response, 404
 
 
-@api_admin.route("/containers-enabled/<bool:state>")
+@api_admin.route("/containers-enabled/<int:state>")
 def set_containers_state(state):
     if "is-admin-logged" in session.keys():
         try:
