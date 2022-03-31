@@ -1,6 +1,6 @@
-from data.database import admin_connection, execute_select
+from data import database
 
 
-@admin_connection
-def get_starter_projects(connection):
-    return execute_select(connection, """SELECT name, id FROM starter_projects""")
+@database.admin_connection
+def get_all(connection):
+    return database.execute(connection, """SELECT name, id FROM starter_projects""")

@@ -1,14 +1,13 @@
 from flask import Blueprint, render_template
-from services import exercises
+from services import starter_projects
 
 
-exercises_route = Blueprint('exercises', __name__)
+exercises_route = Blueprint('starter-projects', __name__)
 
 
 @exercises_route.route("/")
 def display_exercises():
-    exercise_names = exercises.get_exercises()
-    return render_template("exercises.html", exercises=exercise_names)
+    return render_template("starter-projects.html")
 
 
 @exercises_route.route("/<exercise_number>/<file_name>")

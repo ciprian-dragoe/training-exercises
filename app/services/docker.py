@@ -1,7 +1,7 @@
 from data.configuration import CONFIGURATION
+from services.set_timeout import SET_TIMEOUT
 
 
-import os
 import subprocess
 
 
@@ -15,11 +15,15 @@ def get_container_id_from(image_name, command_start_container="", arguments=""):
         return container_id
 
 
-def get_python_execution_result(file, language):
+def get_python_execution_result(code):
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
         raise Exception("Admin is not logged in => code execution is disabled")
-    handler = DOCKER_EXECUTION_TEMPLATES[language]
-    output = handler(file)
+    escaped_code = code.replace("'", "\'")
+    output = str(subprocess.check_output(
+        f"docker exec -it {CONFIGURATION['LANGUAGE_PY_CONTAINER_ID']} python -c ${escaped_code}",
+        shell=True,
+        stderr=subprocess.STDOUT)
+    )[2:-3]
 
     return output
 
@@ -36,7 +40,7 @@ DOCKER_EXECUTION_TEMPLATES = {
 }
 
 
-def stop_language_containers():
+def stop():
     if CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
         stop_container(CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"])
     if CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"]:
@@ -52,8 +56,14 @@ def stop_container(container_id):
         print(f"THERE WAS A PROBLEM STOPPING CONTAINER WITH ID {container_id}")
 
 
-def initialize():
+def initialize_containers():
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
         CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"] = get_container_id_from("language_py", "tail")
     if not CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"]:
         CONFIGURATION["LANGUAGE_PG_CONTAINER_ID"] = get_container_id_from("language_pg", "", f"-e POSTGRES_PASSWORD={CONFIGURATION['PRACTICE_PASS']} -e POSTGRES_DB={CONFIGURATION['PRACTICE_DBNAME']} -e POSTGRES_USER={CONFIGURATION['PRACTICE_USER']} --name language_pg --network {CONFIGURATION['NETWORK_NAME']}")
+
+
+def start():
+    initialize_containers()
+    SET_TIMEOUT.clear()
+    SET_TIMEOUT.run(stop, int(CONFIGURATION["DOCKER_KILL_TIMEOUT_SECONDS"]))

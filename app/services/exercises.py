@@ -1,3 +1,6 @@
+from data.entities import projects
+
+
 import os
 from os import path, listdir
 from glob import glob
@@ -62,7 +65,5 @@ def read_file(file_path):
         return file.read()
 
 
-def delete_all_exercise_files():
-    paths = ['./templates/exercises', './static/exercises']
-    for base_path in paths:
-        [os.remove(f'{base_path}/{file}') for file in listdir(f'./{base_path}/') if file != "__blank"]
+def delete():
+    projects.delete_all()

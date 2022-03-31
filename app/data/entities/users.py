@@ -1,13 +1,16 @@
-from data.database import admin_connection, execute_select
+from data import database
 
 
-@admin_connection
-def get_users(connection):
-    return execute_select(connection, "select * from users")
+@database.admin_connection
+def get_users_with_projects(connection):
+    return database.execute(connection, """
+    select * from users u
+    inner join projects p on p.user_id = u.id
+    """)
 
 
-@admin_connection
-def get_or_create_user(connection, user_name):
-    return execute_select(connection,
+@database.admin_connection
+def get_or_create(connection, user_name):
+    return database.execute(connection,
                           """SELECT * FROM get_or_create_user(%(user_name)s)""",
                           {"user_name": user_name})
