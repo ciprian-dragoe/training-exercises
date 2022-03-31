@@ -1,11 +1,11 @@
 from data.entities import files
 
 
-def get_files_by_project(project_id):
-    result = files.get_files_by_project(project_id)
+def get_files(user_id, project_id):
+    result = files.get_files(user_id, project_id)
     return result
 
 
-def get(file_id, user_id):
-    result = files.get_by_user_id_file_id(file_id, user_id)
+def get(user_id, project_id, file_id):
+    result = files.get(user_id, project_id, file_id)
     return result

@@ -7,13 +7,13 @@ async function displayStudentFileContent() {
         const request = await fetch(studentCodeUrl)
         if (request.status === 200) {
             const data = await request.json()
-            codeAreaElement.value = data.file.content
+            codeAreaElement.value = data.files.map(f => f.content).join("\n")
         }
     }
 }
 
-function viewStudentFileContent(userId, fileId) {
-    studentCodeUrl = `/api/users/${userId}/files/${fileId}`
+function viewStudentFileContent(userId, projectId) {
+    studentCodeUrl = `/api/users/${userId}/projects/${projectId}/files`
     displayStudentFileContent()
 }
 

@@ -1,8 +1,20 @@
-function applyRunCodeEvents() {
+async function applyRunCodeEvents() {
+    const projectId = window.location.href.split("/")[6]
+    const userId = window.location.href.split("/")[4]
     const buttons = document.querySelectorAll("[data-execute-language]")
-    for (const button of buttons) {
-        button.addEventListener("click", event => runCode(button))
-    }
+
+    getProjectFiles(userId, projectId).then(result => {
+        for (let i=0; i < buttons.length; i++) {
+            buttons[i].dataset.fileId = result.files[i].id
+            buttons[i].dataset.userId = userId
+            buttons[i].addEventListener("click", event => runCode(buttons[i]))
+        }
+    })
+}
+
+async function getProjectFiles(userId, projectId) {
+    const request = await fetch(`/api/users/${userId}/projects/${projectId}/files`)
+    return await request.json()
 }
 
 async function runCode(button) {
@@ -21,13 +33,13 @@ async function runCode(button) {
         .replaceAll(/Ș/g, 'S')
         .replaceAll(/ș/g, 's')
     button.disabled = true
-    const result = await executeCodeRemotely(code, language)
+    const result = await executeCodeRemotely(language, code, button.dataset.userId, button.dataset.fileId)
     button.disabled = false
     const callback = window[button.dataset.executeCallback]
     callback && callback(code, result)
 }
 
-async function executeCodeRemotely(code, language) {
+async function executeCodeRemotely(language, code, userId, fileId) {
     const request = await fetch(`/api/language/${language}/execute`, {
         method: "POST",
         headers: {
@@ -35,8 +47,8 @@ async function executeCodeRemotely(code, language) {
         },
         body: JSON.stringify({
             code,
-            exerciseNumber: document.body.dataset.exerciseNumber,
-            user: document.body.dataset.user
+            file_id: fileId,
+            user_id: userId
         })
     })
     return await request.json()
