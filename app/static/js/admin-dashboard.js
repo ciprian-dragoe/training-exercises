@@ -36,8 +36,8 @@ function displayUserProjects(projects) {
         const proj = projects.filter(p => p.user_name === user)
         const links = proj.map(p => `
             <div class="mb-2">
-                <button class="btn btn-light" onclick="openStudentProject('${p.prj_id}', '${p.prj_id}')">Go to project</button>
-                <button class="btn btn-light" onclick="viewStudentFileContent('${p.prj_id}', '${p.prj_id}')">View solution</button>
+                <button class="btn btn-light" onclick="openStudentProject('${p.user_id}', '${p.prj_id}')">Go to project</button>
+                <button class="btn btn-light" onclick="viewStudentFileContent('${p.user_id}', '${p.prj_id}')">View solution</button>
                 <span>${p.prj_name}</span>
             </div>`
         ).join("")

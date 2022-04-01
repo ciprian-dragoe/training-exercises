@@ -1,5 +1,5 @@
 export async function get(userId, projectId, fileId) {
-    const response = fetch(`/api/user/${userId}/projects/${projectId}/files/${fileId}`)
-    const data = response.json()
-    return data.files
+    const response = await fetch(`/api/users/${userId}/projects/${projectId}/files/${fileId}`)
+    const data = await response.json()
+    return data
 }

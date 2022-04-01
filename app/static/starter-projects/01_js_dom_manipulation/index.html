@@ -1,16 +1,12 @@
 {% extends "project-template.html" %}
 
 {% block extra_imports %}
-    <script type="module" src="{{ url_for('static', filename='js/codeContainer/main.js') }}" defer></script>
-{#    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>#}
-{#    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>#}
-{#    <script src="{{ url_for('static', filename='js/js-controller.js') }}" defer></script>#}
     <link rel="stylesheet" href="{{ url_for('static', filename='style/layout-dom-manipulation.css') }}"/>
 {% endblock %}
 
 {% block body_content %}
     <div id="code-area">
-        <textarea id="code-viewer"/>
+        <textarea id="code-viewer"></textarea>
 
         <button id="code-runner"></button>
 

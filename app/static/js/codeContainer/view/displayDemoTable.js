@@ -1,4 +1,4 @@
-import * as displayTable from './displayTable'
+import * as displayTable from './displayTable.js'
 
 export function appendTable(tableData, tableName) {
     const tableToDisplay = displayTable.build(tableName, tableData)

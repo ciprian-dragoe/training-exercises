@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS starter_files (
 );
 
 ALTER TABLE starter_projects
-ADD CONSTRAINT fk_entry_point_starter_file_id
+ADD CONSTRAINT fk_entry_point_starter_files
 FOREIGN KEY (entry_point_starter_file_id)
 REFERENCES starter_files (id);
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS projects (
     name               VARCHAR(100)        NOT NULL,
     created_date       date                NOT NULL default now(),
     starter_project_id integer,
-    CONSTRAINT fk_starter_project_id
+    CONSTRAINT fk_starter_project
         FOREIGN KEY(starter_project_id)
             REFERENCES starter_projects(id),
     user_id            INTEGER,
@@ -49,13 +49,13 @@ CREATE TABLE IF NOT EXISTS files(
     content         VARCHAR(3000)       NOT NULL,
     created_date    date                NOT NULL default now(),
     project_id     INTEGER,
-    CONSTRAINT fk_exercises
+    CONSTRAINT fk_projects
         FOREIGN KEY(project_id)
             REFERENCES projects(id)
 );
 
 ALTER TABLE projects
-ADD CONSTRAINT fk_entry_point_file_id
+ADD CONSTRAINT fk_entry_point_file
 FOREIGN KEY (entry_point_file_id)
 REFERENCES files (id);
 

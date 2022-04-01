@@ -9,6 +9,7 @@ from controllers.api.admin import api_admin
 from controllers.api.users import *
 from controllers.api.languages import api_languages
 from controllers.api.starter_projects import api_starter_projects
+from data.configuration import CONFIGURATION
 
 
 app = Flask(__name__)
@@ -36,4 +37,4 @@ def initialize_app():
 
 initialize_app()
 if __name__ == "__main__":
-    app.run(debug=False, port=80, host='0.0.0.0')
+    app.run(debug=CONFIGURATION["FLASK_ENV"] == "development", port=80, host='0.0.0.0')
