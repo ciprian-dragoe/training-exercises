@@ -5,22 +5,28 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS starter_projects (
-    id              SERIAL primary key,
-    is_visible      bool                         default True,
-    created_date    date                NOT NULL default now(),
-    name            VARCHAR(100)        NOT NULL
+    id                          SERIAL primary key,
+    is_visible                  bool                         default True,
+    created_date                date                NOT NULL default now(),
+    name                        VARCHAR(100)        NOT NULL,
+    entry_point_starter_file_id INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS starter_files (
     id                  SERIAL primary key,
     name                VARCHAR(100)        NOT NULL,
-    content             VARCHAR(1000)       NOT NULL,
+    content             VARCHAR(3000),
     created_date        date                NOT NULL default now(),
     starter_project_id  INTEGER             NOT NULL,
     CONSTRAINT fk_starter_projects
         FOREIGN KEY(starter_project_id)
             REFERENCES starter_projects(id)
 );
+
+ALTER TABLE starter_projects
+ADD CONSTRAINT fk_entry_point_starter_file_id
+FOREIGN KEY (entry_point_starter_file_id)
+REFERENCES starter_files (id);
 
 CREATE TABLE IF NOT EXISTS projects (
     id                 SERIAL primary key,
@@ -33,19 +39,26 @@ CREATE TABLE IF NOT EXISTS projects (
     user_id            INTEGER,
     CONSTRAINT fk_users
         FOREIGN KEY(user_id)
-            REFERENCES users(id)
+            REFERENCES users(id),
+    entry_point_file_id INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS files(
     id              SERIAL primary key,
     name            VARCHAR(100)        NOT NULL,
-    content         VARCHAR(1000)       NOT NULL,
+    content         VARCHAR(3000)       NOT NULL,
     created_date    date                NOT NULL default now(),
     project_id     INTEGER,
     CONSTRAINT fk_exercises
         FOREIGN KEY(project_id)
             REFERENCES projects(id)
 );
+
+ALTER TABLE projects
+ADD CONSTRAINT fk_entry_point_file_id
+FOREIGN KEY (entry_point_file_id)
+REFERENCES files (id);
+
 
 ------------------------ STORED PROCEDURES ------------------------
 CREATE OR REPLACE FUNCTION get_or_create_user(user_name VARCHAR(100))
@@ -84,29 +97,3 @@ BEGIN
     end if;
 END
 $function$;
-
--- pagina starter projects
---   session storage daca e vre-un utilizator nume atunci prepopulez field
---     atunci cand incep proiect pun nume + id in session storage
---   get starter projects
--- pagina active project
---   create or get user by name
---   create or get project by user id and starter project id
---   create or get files by user id & project
---   execute code & update existing file content
--- pagina admin
---   get users with active projects
---   set visible starter projects
---     get all starter projects
---     update by project id
---   rehidrate
---     get all file names from disk
---     get all starter projects
---     delete starter projects that do not have those names and return the starter project id
---     delete starter files by range project ids
---     delete projects by range starter_project_ids and return theire ids
---     delete files by range project ids
---     create new starter projects based on missing names
---     create new starter files based on file names
---     get all users
---     get all user projects
