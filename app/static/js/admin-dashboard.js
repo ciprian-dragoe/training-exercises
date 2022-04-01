@@ -52,5 +52,10 @@ function displayUserProjects(projects) {
     destinationElement.innerHTML = result
 }
 
+function syncStarterProjects() {
+    fetch('/api/admin/sync-starter-projects')
+}
+
+syncStarterProjects()
 displayActiveProjects()
 setInterval(displayActiveProjects, 10000)

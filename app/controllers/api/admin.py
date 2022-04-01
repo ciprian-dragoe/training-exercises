@@ -2,6 +2,7 @@ from services import users
 from services import projects
 from services import docker
 from services import files
+from services import sync_disk_projects_db_projects
 
 
 from flask import Blueprint, session, jsonify
@@ -36,6 +37,16 @@ def delete_projects():
         return jsonify(result)
     else:
         response = jsonify({'message': 'SUCCESS'})
+        return response, 404
+
+
+@api_admin.route("/sync-starter-projects")
+def reload_starter_projects():
+    if "is-admin-logged" in session.keys():
+        sync_disk_projects_db_projects.start()
+        return jsonify({'message': 'SUCCESS'})
+    else:
+        response = jsonify({'message': 'Not authorized'})
         return response, 404
 
 

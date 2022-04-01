@@ -1,14 +1,10 @@
+# todo: delete extra code after migration complete
+
 from data.entities import projects
 
 
 from os import path, listdir
 from glob import glob
-
-
-def get_exercises():
-    directory_names = [f'{file}' for file in listdir('./exercises/')]
-    directory_names.sort()
-    return directory_names
 
 
 def create_user_files(file_name, exercise_number):
