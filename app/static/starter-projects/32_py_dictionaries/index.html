@@ -1,18 +1,16 @@
-{% extends "exercise_template.html" %}
+{% extends "project-template.html" %}
 
 {% block extra_imports %}
-<script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/python-controller.js') }}" defer></script>
 {% endblock %}
 
 {% block body_content %}
-<div style="display: flex; flex-direction: column; margin-bottom: 30px">
-  <textarea data-language="py" style="height: 85vh; font-size: 14px"></textarea>
-  <button data-execute-language="py" data-execute-callback="runPython">Execute Python</button>
-</div>
+    <div id="code-area">
+        <textarea id="code-viewer"></textarea>
 
-<h1></h1>
+        <button id="code-runner"></button>
 
-<div id="code-result"></div>
+        <div id="code-result"></div>
+
+        <div id="environment-setup"></div>
+    </div>
 {% endblock %}

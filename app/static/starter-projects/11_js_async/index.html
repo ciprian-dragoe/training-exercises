@@ -1,20 +1,19 @@
-{% extends "exercise_template.html" %}
+{% extends "project-template.html" %}
 
 {% block extra_imports %}
-    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/js-controller.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/layout-dom-manipulation.css') }}"/>
 {% endblock %}
 
 {% block body_content %}
-    <div style="display: flex; flex-direction: column; margin-bottom: 30px">
-        <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
-        <button data-execute-language="js" data-execute-callback="runJs">Execute JS</button>
-    </div>
+    <div id="code-area">
+        <textarea id="code-viewer"></textarea>
 
-    <input id="age-input" placeholder="enter your name"/>
-    <button>Predict Age</button>
-    <div id="code-result"></div>
+        <button id="code-runner"></button>
+
+        <div id="code-result"></div>
+
+        <div id="environment-setup"></div>
+    </div>
 
     <h1>when you press the button <strong>Predict Age</strong> capture the input and use it to predict the age using the api <strong>https://api.agify.io?name=[what_you_typed]</strong></h1>
 {% endblock %}
