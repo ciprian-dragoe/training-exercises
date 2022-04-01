@@ -10,15 +10,18 @@
 {% endblock %}
 
 {% block body_content %}
-  <div id="action-area">
+  <div>
     <div style="display: flex; flex-direction: column; margin-bottom: 30px" id="query-area">
       <textarea data-language="sql" style="font-size: 20px; height: 100%"></textarea>
       <button data-execute-language="sql" data-execute-callback="runSql">Execute SQL</button>
     </div>
+
     <div id="code-result"></div>
+
+    <div id="environment-setup"></div>
   </div>
 
-  <div id="initial-data"></div>
+
 
   <h1>show the average historical price for the 'phone' product</h1>
 {% endblock %}

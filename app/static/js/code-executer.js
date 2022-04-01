@@ -1,22 +1,3 @@
-async function applyRunCodeEvents() {
-    const projectId = window.location.href.split("/")[6]
-    const userId = window.location.href.split("/")[4]
-    const buttons = document.querySelectorAll("[data-execute-language]")
-
-    getProjectFiles(userId, projectId).then(result => {
-        for (let i=0; i < buttons.length; i++) {
-            buttons[i].dataset.fileId = result.files[i].id
-            buttons[i].dataset.userId = userId
-            buttons[i].addEventListener("click", event => runCode(buttons[i]))
-        }
-    })
-}
-
-async function getProjectFiles(userId, projectId) {
-    const request = await fetch(`/api/users/${userId}/projects/${projectId}/files`)
-    return await request.json()
-}
-
 async function runCode(button) {
     const codeResult = document.getElementById("code-result")
     codeResult ? codeResult.innerHTML = "" : 0
@@ -39,19 +20,3 @@ async function runCode(button) {
     callback && callback(code, result)
 }
 
-async function executeCodeRemotely(language, code, userId, fileId) {
-    const request = await fetch(`/api/language/${language}/execute`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            code,
-            file_id: fileId,
-            user_id: userId
-        })
-    })
-    return await request.json()
-}
-
-applyRunCodeEvents()
