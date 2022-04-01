@@ -1,0 +1,8 @@
+#code-area {
+    display: flex;
+    flex-direction: column;
+}
+
+#code-viewer {
+    height: 30vh;
+}

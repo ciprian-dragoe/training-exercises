@@ -1,4 +1,4 @@
-import * as sqlInitializer from './sqlInitializer'
+import * as sqlInitializer from './sqlInitializer.js'
 
 const factory = {
     'sql': sqlInitializer.initialize

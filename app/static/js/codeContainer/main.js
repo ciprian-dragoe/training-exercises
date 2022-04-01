@@ -1,15 +1,19 @@
-import * as projects from "./data/projects";
-import * as files from "./data/files";
-import * as codeRunner from "./controllers/codeRunner/codeRunner";
-import * as environmentInitializer from "./controllers/environmentInitializer/environmentInitializer";
+import * as projects from "./data/projects.js";
+import * as files from "./data/files.js";
+import * as codeRunner from "./controllers/codeRunner/codeRunner.js";
+import * as environmentInitializer from "./controllers/environmentInitializer/environmentInitializer.js";
+import * as codeViewer from "./controllers/codeViewer.js";
 
-function main() {
+async function main() {
     const projectId = window.location.href.split("/")[6]
     const userId = window.location.href.split("/")[4]
-    const project = projects.get(userId, projectId)
-    const fileEntryPoint = files.get(userId, projectId, project.entry_point_file_id)
+    const project = (await projects.get(userId, projectId)).project
+    const fileEntryPoint = (await files.get(userId, projectId, project.entry_point_file_id)).file
     codeRunner.attachEventListener(project, fileEntryPoint)
-    environmentInitializer.initialize(file)
+    environmentInitializer.initialize(fileEntryPoint)
+    codeViewer.loadFile(fileEntryPoint)
 }
 
-main()
+(async () => {
+  await main();
+})();

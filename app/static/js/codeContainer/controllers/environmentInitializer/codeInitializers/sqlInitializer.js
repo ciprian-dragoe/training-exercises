@@ -1,7 +1,7 @@
-import * as language from '../../../data/language'
-import * as displayErrorMessage from '../../../view/displayErrorMessage'
-import * as displayTable from '../../../view/displayTable'
-import * as displayDemoTable from "../../../view/displayDemoTable";
+import * as language from '../../../data/language.js'
+import * as displayErrorMessage from '../../../view/displayErrorMessage.js'
+import * as displayTable from '../../../view/displayTable.js'
+import * as displayDemoTable from "../../../view/displayDemoTable.js";
 
 async function appendQueryTable(tableName, sqlCode) {
     const data = await language.runCode('sql', sqlCode)
