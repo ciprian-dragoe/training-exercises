@@ -1,21 +1,19 @@
-{% extends "exercise_template.html" %}
-
-{% block page_title %}
-    Exercise 2
-{% endblock %}
+{% extends "project-template.html" %}
 
 {% block extra_imports %}
-    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/js-controller.js') }}" defer></script>
-    <link rel="stylesheet" href="/static/style/layout-dom-manipulation.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/layout-dom-manipulation.css') }}"/>
 {% endblock %}
 
 {% block body_content %}
-  <div style="display: flex; flex-direction: column; margin-bottom: 30px">
-    <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
-    <button data-execute-language="js" data-execute-callback="runJs">Execute JS</button>
-  </div>
+    <div id="code-area">
+        <textarea id="code-viewer"></textarea>
+
+        <button id="code-runner"></button>
+
+        <div id="code-result"></div>
+
+        <div id="environment-setup"></div>
+    </div>
 
   <div style="font-size: 25px; color: green">capture via js & print in the console the html element with the tag `h1`</div>
 

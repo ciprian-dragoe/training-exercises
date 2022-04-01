@@ -1,19 +1,19 @@
-{% extends "exercise_template.html" %}
+{% extends "project-template.html" %}
 
 {% block extra_imports %}
-    <script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/js-controller.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/layout-dom-manipulation.css') }}"/>
 {% endblock %}
 
 {% block body_content %}
-    <div style="display: flex; flex-direction: column; margin-bottom: 30px">
-        <textarea data-language="js" style="height: 200px; font-size: 20px"></textarea>
-        <button data-execute-language="js" data-execute-callback="runJs">Execute JS</button>
-    </div>
+    <div id="code-area">
+        <textarea id="code-viewer"></textarea>
 
-    <button id="refresh-price-button">Update BitCoin price</button>
-    <div id="result">Press the button to get the latest price</div>
+        <button id="code-runner"></button>
+
+        <div id="code-result"></div>
+
+        <div id="environment-setup"></div>
+    </div>
 
     <h1>when you press the button <strong>Update BitCoin price</strong> show the price in euro of bitcoin from the api <strong>https://api.coindesk.com/v1/bpi/currentprice.json</strong></h1>
 {% endblock %}

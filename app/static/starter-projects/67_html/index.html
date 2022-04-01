@@ -1,21 +1,18 @@
-{% extends "exercise_template.html" %}
+{% extends "project-template.html" %}
 
 {% block extra_imports %}
-<script src="{{ url_for('static', filename='js/code-formatter.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/code-executer.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/html-controller.js') }}" defer></script>
 {% endblock %}
 
 {% block body_content %}
-<div style="display: flex">
-    <div style="display: flex; flex-direction: column; margin-bottom: 30px; width: 50%">
-        <button data-execute-language="html" data-execute-callback="runHtml">Execute HTML</button>
-        <textarea data-language="html" style="height: 60vh; font-size: 15px"></textarea>
-    </div>
+    <div id="code-area">
+        <textarea id="code-viewer"></textarea>
 
-    <div id="code-result" style="width: 50%; margin-left: 10px"></div>
-</div>
-<h1></h1>
+        <button id="code-runner"></button>
+
+        <div id="code-result"></div>
+
+        <div id="environment-setup"></div>
+    </div>
 <li><i>BONUS</i> Creaza un tabel cu 2 randuri si 3 coloane</li>
 </ol>
 {% endblock %}
