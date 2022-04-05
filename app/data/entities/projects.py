@@ -8,12 +8,12 @@ def get_or_create(user_id, starter_project_id):
 
 def delete(project_id):
     connection = database.get_db_connection(database.DbConnection.admin)
-    return database.execute(connection, f"""delete from projects where id = {project_id}""", should_return_output=False)
+    return database.execute(connection, f"""delete from projects where id = {project_id}""")
 
 
 def delete_all():
     connection = database.get_db_connection(database.DbConnection.admin)
-    return database.execute(connection, f"""delete from projects""", should_return_output=False)
+    return database.execute(connection, f"""delete from projects""")
 
 
 def get(user_id, project_id):

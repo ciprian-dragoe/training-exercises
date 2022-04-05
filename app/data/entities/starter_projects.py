@@ -26,7 +26,7 @@ def update_starter_file(project_id, file_id):
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection, f"""
             update starter_projects
-            set entry_point_file_id = {file_id}) 
+            set entry_point_starter_file_id = {file_id} 
             where id = {project_id}
             returning *;
         """)
@@ -35,6 +35,10 @@ def update_starter_file(project_id, file_id):
 def delete_by_name(name):
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection, f"""
+                update starter_projects set entry_point_starter_file_id = Null
+                    where name = %(name)s;
+                delete from starter_files 
+                    where starter_project_id = (select id from starter_projects where name = %(name)s);
                 delete from starter_projects
-                where name = %(name)s
+                    where name = %(name)s;
             """, {'name': name})

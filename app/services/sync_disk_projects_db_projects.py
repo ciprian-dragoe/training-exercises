@@ -17,16 +17,20 @@ def start():
                 starter_projects.update_starter_file(new_project['id'], new_file['id'])
 
     for name in imports['starter_project_names_delete']:
+        # todo: ce se intampla cu fisierele ramase de la acel proiect
         starter_projects.delete_by_name(name)
 
     for file in imports['starter_files_add']:
-        starter_files.create(file)
+        new_file = starter_files.create(file)
+        if 'main.' in new_file['name']:
+            starter_projects.update_starter_file(new_file['starter_project_id'], new_file['id'])
 
     for file in imports['starter_files_delete']:
-        starter_files.delete(file['id'])
+        starter_files.delete(file['file_id'])
 
     for file in imports['starter_files_update']:
-        starter_files.update_content(file['id'], file['file_content'])
+        starter_files.update_content(file['file_id'], file['content'])
+    print(imports)
 
 
 def get_db_projects_to_update(disk_projects, db_projects):
@@ -40,20 +44,20 @@ def get_db_projects_to_update(disk_projects, db_projects):
     for disk_project in disk_projects:
         if is_project_already_in_db(disk_project, db_projects):
             db_files_linked_to_project = [project for project in db_projects if project['project_name'] == disk_project['name']]
-            result['starter_files_add'] = get_disk_files_not_in_db(disk_project, db_files_linked_to_project)
+            result['starter_files_add'] += get_disk_files_not_in_db(disk_project, db_files_linked_to_project)
 
             disk_files_linked_to_project = [file for file in disk_project['files']]
-            result['starter_files_delete'] = get_db_files_not_on_disk(db_files_linked_to_project,
+            result['starter_files_delete'] += get_db_files_not_on_disk(db_files_linked_to_project,
                                                                          disk_files_linked_to_project)
 
-            result['starter_files_update'] = get_content_miss_matching_files(db_files_linked_to_project,
+            result['starter_files_update'] += get_content_miss_matching_files(db_files_linked_to_project,
                                                                       disk_files_linked_to_project)
         else:
             result['starter_projects_add'].append(disk_project)
 
     db_project_names = set([project['project_name'] for project in db_projects])
     disk_project_names = [project['name'] for project in disk_projects]
-    result['starter_projects_names_delete'] = [project_name for project_name in db_project_names if
+    result['starter_project_names_delete'] = [project_name for project_name in db_project_names if
                                         project_name not in disk_project_names]
 
     return result

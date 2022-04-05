@@ -22,8 +22,7 @@ def update(file_id, content):
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection,
                           f"""update files set content=%(content)s where id = {file_id}""",
-                          {"content": content},
-                           should_return_output=False)
+                          {"content": content})
 
 
 def is_user_owning_file(user_id, file_id):
