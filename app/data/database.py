@@ -41,9 +41,8 @@ def get_db_connection(connection_type):
         print(e)
 
 
-def execute(connection, statement, variables=None, should_return_output=True):
+def execute(connection, statement, variables=None):
     with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
         cursor.execute(statement, variables)
-        if should_return_output:
-            result_set = cursor.fetchall()
-            return result_set
+        if cursor.pgresult_ptr is not None:
+            return cursor.fetchall()

@@ -25,7 +25,8 @@ def create(file):
 def delete(file_id):
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection, f"""
-            delete from starter_files where id = {file_id}
+            update starter_projects set entry_point_starter_file_id = NULL where entry_point_starter_file_id = {file_id};
+            delete from starter_files where id = {file_id};
         """)
 
 
@@ -33,7 +34,7 @@ def update_content(file_id, new_content):
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection, f"""
                 update starter_files
-                set content = %(new_content)s) 
+                set content = %(new_content)s
                 where id = {file_id}
                 returning *;
             """, { 'new_content': new_content})[0]

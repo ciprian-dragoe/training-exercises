@@ -58,4 +58,4 @@ function syncStarterProjects() {
 
 syncStarterProjects()
 displayActiveProjects()
-setInterval(displayActiveProjects, 10000)
+// setInterval(displayActiveProjects, 10000)
