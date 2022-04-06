@@ -3,7 +3,8 @@ from data import database
 
 def get_or_create(user_id, starter_project_id):
     connection = database.get_db_connection(database.DbConnection.admin)
-    return database.execute(connection, f"""SELECT * FROM get_or_create_project({user_id}, {starter_project_id})""")
+    return database.execute(connection,
+                            f"""SELECT * FROM get_or_create_project({user_id}, {starter_project_id})""")[0]
 
 
 def delete(project_id):

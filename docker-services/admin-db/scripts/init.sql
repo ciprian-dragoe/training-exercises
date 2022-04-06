@@ -69,7 +69,7 @@ DECLARE
     result users%ROWTYPE;
 BEGIN
     SELECT * into result FROM users where name = user_name;
-    if result is not null then
+    if found then
         return result;
     else
         insert into users(name) values(user_name) returning * into result;
@@ -87,12 +87,13 @@ DECLARE
     project_name varchar(100);
 BEGIN
     SELECT * into result FROM projects where user_id = userId and starter_project_id = starterProjectId;
-    if result is not null then
+    if found then
         return result;
     else
         select name into project_name from starter_projects where id = starterProjectId;
         insert into projects(name, user_id, starter_project_id) values(project_name, userId, starterProjectId) returning * into result;
-        insert into files(id, name, content, project_id) select id, name, content, result.id from starter_files where starter_project_id = starterProjectId;
+        insert into files(name, content, project_id) select name, content, result.id from starter_files where starter_project_id = starterProjectId;
+        update projects set entry_point_file_id = (select id from files where project_id = result.id and name like '%main.%') where id = result.id;
         return result;
     end if;
 END
