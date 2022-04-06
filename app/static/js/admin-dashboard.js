@@ -56,6 +56,22 @@ function syncStarterProjects() {
     fetch('/api/admin/sync-starter-projects')
 }
 
-syncStarterProjects()
-displayActiveProjects()
-// setInterval(displayActiveProjects, 10000)
+function setListenerLogoutButton() {
+    const button = document.getElementById('logout')
+    button.addEventListener('click', (e) => {
+        e.preventDefault()
+        fetch('/api/admin/projects', { method: "DELETE" })
+        window.location.pathname = `/admin/logout`;
+    })
+}
+
+function main() {
+    syncStarterProjects()
+    displayActiveProjects()
+    setInterval(displayActiveProjects, 10000)
+    setListenerLogoutButton()
+    console.log(1)
+}
+
+main()
+
