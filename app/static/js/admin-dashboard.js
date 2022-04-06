@@ -65,12 +65,16 @@ function setListenerLogoutButton() {
     })
 }
 
+function keepLanguageEnvironmentsActive() {
+    setInterval(() => fetch(`/api/admin/keep-language-environments-active`), 10000)
+}
+
 function main() {
     syncStarterProjects()
     displayActiveProjects()
     setInterval(displayActiveProjects, 10000)
     setListenerLogoutButton()
-    console.log(1)
+    keepLanguageEnvironmentsActive()
 }
 
 main()

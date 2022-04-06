@@ -50,16 +50,12 @@ def reload_starter_projects():
         return response, 404
 
 
-@api_admin.route("/containers-enabled/<int:state>")
-def set_containers_state(state):
+@api_admin.route("/keep-language-environments-active")
+def set_containers_state():
     if "is-admin-logged" in session.keys():
         try:
-            if state:
-                docker.start()
-            else:
-                docker.stop()
+            docker.start()
             return jsonify({"message": "SUCCESS"})
-
         except:
             return jsonify({"message": "There was a problem starting the container, check logs"})
     else:

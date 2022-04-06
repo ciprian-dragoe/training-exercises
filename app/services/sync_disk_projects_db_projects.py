@@ -30,7 +30,6 @@ def start():
 
     for file in imports['starter_files_update']:
         starter_files.update_content(file['file_id'], file['content'])
-    print(imports)
 
 
 def get_db_projects_to_update(disk_projects, db_projects):

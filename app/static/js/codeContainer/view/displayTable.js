@@ -40,6 +40,7 @@ export function addTableEvents() {
 }
 
 export function build(tableName, tableData) {
+    console.log(tableData)
     if (!tableData.length) {
         return '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query returned no elements'
     }
