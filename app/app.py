@@ -22,17 +22,17 @@ def index():
 
 def initialize_app():
     app_configuration.initialize(app)
-    app.register_blueprint(display_admin, url_prefix='/admin')
-    app.register_blueprint(api_admin, url_prefix='/api/admin')
+    app.register_blueprint(display_admin, url_prefix='/admin/')
+    app.register_blueprint(api_admin, url_prefix='/api/admin/')
 
     app.register_blueprint(display_users, url_prefix='/users/')
 
-    app.register_blueprint(display_starter_projects, url_prefix='/starter-projects')
-    app.register_blueprint(api_starter_projects, url_prefix='/api/starter-projects')
+    app.register_blueprint(display_starter_projects, url_prefix='/starter-projects/')
+    app.register_blueprint(api_starter_projects, url_prefix='/api/starter-projects/')
 
-    app.register_blueprint(api_users, url_prefix='/api/users')
+    app.register_blueprint(api_users, url_prefix='/api/users/')
 
-    app.register_blueprint(api_languages, url_prefix='/api/language')
+    app.register_blueprint(api_languages, url_prefix='/api/language/')
 
 
 initialize_app()

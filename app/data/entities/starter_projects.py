@@ -1,9 +1,9 @@
 from data import database
 
 
-def get_all_project_names():
+def get_all_by_visibility(visibility):
     connection = database.get_db_connection(database.DbConnection.admin)
-    return database.execute(connection, """SELECT name, id FROM starter_projects""")
+    return database.execute(connection, f"""SELECT * FROM starter_projects where is_visible={visibility} order by name""")
 
 
 def get_all_projects_with_files():

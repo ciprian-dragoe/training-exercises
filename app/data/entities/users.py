@@ -13,4 +13,4 @@ def get_users_with_projects():
 def get_or_create(user_name):
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection, """SELECT * FROM get_or_create_user(%(user_name)s)""",
-                          {"user_name": user_name})
+                          {"user_name": user_name})[0]

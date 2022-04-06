@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>How it works</title>
-        <script src="{{ url_for('static', filename='js/exercises.js') }}" defer></script>
+        <script src="/static/js/starter-projects.js" defer></script>
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.jpg') }}" type="image/x-icon"/>
     </head>
 
@@ -17,11 +17,7 @@
                 style="width: 200px"
                 minlength="1"
             />
-            <select name="number" placeholder="enter the exercise number">
-              {% for exercise in exercises %}
-                <option value="{{exercise}}">{{ exercise.replace("_", " ") }}</option>
-              {% endfor %}
-            </select>
+            <select name="number" placeholder="enter the exercise number" id="starter-projects"></select>
             <button type="submit">Go to exercise</button>
         </form>
     </body>
