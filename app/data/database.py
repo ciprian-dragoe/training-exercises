@@ -33,7 +33,6 @@ def get_db_connection(connection_type):
     else:
         connection_string = f"dbname={CONFIGURATION['PRACTICE_DBNAME']} user={CONFIGURATION['PRACTICE_USER']} host={CONFIGURATION['PRACTICE_HOST']} password={CONFIGURATION['PRACTICE_PASS']} port={CONFIGURATION['PRACTICE_PORT']}"
     try:
-        print(f'DEBUG connecting to: {connection_string}')
         connection = psycopg2.connect(connection_string)
         connection.autocommit = True
         return connection

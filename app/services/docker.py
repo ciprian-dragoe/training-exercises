@@ -18,26 +18,10 @@ def get_container_id_from(image_name, command_start_container="", arguments=""):
 def get_python_execution_result(code):
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
         raise Exception("Admin is not logged in => code execution is disabled")
-    escaped_code = code.replace("'", "\'")
-    output = str(subprocess.check_output(
-        f"docker exec -it {CONFIGURATION['LANGUAGE_PY_CONTAINER_ID']} python -c ${escaped_code}",
-        shell=True,
-        stderr=subprocess.STDOUT)
-    )[2:-3]
-
+    escaped_code = code.replace('"', r'\"').replace("'", r"\'")
+    instructions = f"/usr/local/bin/docker exec -it {CONFIGURATION['LANGUAGE_PY_CONTAINER_ID']} python -c $'{escaped_code}'"
+    output = str(subprocess.check_output(instructions, shell=True, stderr=subprocess.STDOUT))[2:-3]
     return output
-
-
-def execute_python(file_path):
-    file_name = file_path.split("/")[-1]
-    subprocess.check_output(f"docker cp {file_path} {CONFIGURATION['LANGUAGE_PY_CONTAINER_ID']}:/{file_name}", shell=True)
-    output = str(subprocess.check_output(f'docker exec {CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]} python /{file_name}', shell=True, stderr=subprocess.STDOUT))[2:-3]
-    return output
-
-
-DOCKER_EXECUTION_TEMPLATES = {
-    "py": execute_python
-}
 
 
 def stop():
