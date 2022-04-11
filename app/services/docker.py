@@ -38,7 +38,7 @@ def stop():
 
 def stop_container(container_id):
     try:
-        subprocess.check_output(f'docker container stop {container_id}', shell=True)
+        subprocess.check_output(f'docker container kill {container_id}', shell=True)
     except:
         print(f"THERE WAS A PROBLEM STOPPING CONTAINER WITH ID {container_id}")
 
