@@ -1,0 +1,10 @@
+#code-result {
+    position: absolute;
+    right: 0;
+    width: 45%;
+    padding: 5px;
+}
+
+#code-area {
+    width: 50%;
+}

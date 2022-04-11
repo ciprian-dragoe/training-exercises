@@ -31,6 +31,7 @@ services:
       POSTGRES_USER: ${PRACTICE_USER}
       POSTGRES_DB: ${PRACTICE_DBNAME}
       POSTGRES_PASSWORD: ${PRACTICE_PASS}
+    command: ["echo", "### TURNED OFF WAITING FOR ADMIN TO START IT ###"]
   python-server:
     image: python_server
     build:
@@ -59,8 +60,7 @@ services:
       FLASK_ENV: ${RUNNING_MODE}
     depends_on:
       - admin-db
-    command: > 
-      bash -c "chmod +x /app/start_server.sh && /app/start_server.sh"
+    command: [ "bash", "-c", "chmod +x /app/start_server.sh && sh /app/start_server.sh"]
 
 volumes:
   admin:
