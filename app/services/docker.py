@@ -18,8 +18,11 @@ def get_container_id_from(image_name, command_start_container="", arguments=""):
 def get_python_execution_result(code):
     if not CONFIGURATION["LANGUAGE_PY_CONTAINER_ID"]:
         raise Exception("Admin is not logged in => code execution is disabled")
-    escaped_code = code.replace('"', r'\"').replace("'", r"\'")
-    instructions = f"/usr/local/bin/docker exec -it {CONFIGURATION['LANGUAGE_PY_CONTAINER_ID']} python -c $'{escaped_code}'"
+    escaped_code = code.replace("'", "'\\''")
+    # todo: inspect if bash code injection can be done by something like \' || echo hacked
+    # escaped_code = code.replace('\\', r'\\').replace("'", r"\'").replace('"', r'\"')
+    print(escaped_code)
+    instructions = f"/usr/local/bin/docker exec {CONFIGURATION['LANGUAGE_PY_CONTAINER_ID']} python -c '{escaped_code}'"
     output = str(subprocess.check_output(instructions, shell=True, stderr=subprocess.STDOUT))[2:-3]
     return output
 
