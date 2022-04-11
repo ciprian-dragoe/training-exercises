@@ -12,7 +12,7 @@ It's a front end site where user's solve a predefined list of exercises.
 
 
 ## What is the `Admin` interface for
-Non `js` code can only be executed while the admin is logged in.
+Backend code can only be executed only while the admin is logged in.
 To login access the link `/admin/dashboard` by supplying the password  set in the `.env` file for the field `ADMIN_DASHBOARD_PASS`
 
 ## Make the exercises' page accessible as a public link when you are on a local host
