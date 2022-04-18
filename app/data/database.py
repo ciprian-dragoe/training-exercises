@@ -1,9 +1,10 @@
-from data.configuration import CONFIGURATION
-
-
+from enum import Enum
+import pymssql
 import psycopg2
 import psycopg2.extras
-from enum import Enum
+
+
+from data.configuration import CONFIGURATION
 
 
 class DbConnection(Enum):
@@ -11,38 +12,33 @@ class DbConnection(Enum):
     language_pg = 2
 
 
-def admin_connection(func):
-    def get_connection_wrapper(*args, **kwargs):
-        connection = get_db_connection(DbConnection.admin)
-        return func(connection, *args, **kwargs)
-
-    return get_connection_wrapper()
-
-
-def playground_connection(func):
-    def get_connection_wrapper(*args, **kwargs):
-        connection = get_db_connection(DbConnection.language_pg)
-        return func(connection, *args, **kwargs)
-
-    return get_connection_wrapper()
+def connection_callback_builder(connection_type):
+    if connection_type == DbConnection.admin:
+        if CONFIGURATION["ADMIN_SERVER_TYPE"] == "sql-server":
+            connection_service = pymssql
+        else:
+            connection_service = psycopg2
+        return lambda: connection_service.connect(server=CONFIGURATION['ADMIN_HOST'], port=CONFIGURATION['ADMIN_PORT'], user=CONFIGURATION['ADMIN_USER'], password=CONFIGURATION['ADMIN_PASS'], database=CONFIGURATION['ADMIN_DBNAME'])
+    else:
+        if CONFIGURATION["PRACTICE_SERVER_TYPE"] == "sql-server":
+            connection_service = pymssql
+        else:
+            connection_service = psycopg2
+        return lambda: connection_service.connect(server=CONFIGURATION['PRACTICE_HOST'], port=CONFIGURATION['PRACTICE_PORT'], user=CONFIGURATION['PRACTICE_USER'], password=CONFIGURATION['PRACTICE_PASS'], database=CONFIGURATION['PRACTICE_DBNAME'])
 
 
 def get_db_connection(connection_type):
-    if connection_type == DbConnection.admin:
-        connection_string = f"dbname={CONFIGURATION['ADMIN_DBNAME']} user={CONFIGURATION['ADMIN_USER']} host={CONFIGURATION['ADMIN_HOST']} password={CONFIGURATION['ADMIN_PASS']} port={CONFIGURATION['ADMIN_PORT']}"
-    else:
-        connection_string = f"dbname={CONFIGURATION['PRACTICE_DBNAME']} user={CONFIGURATION['PRACTICE_USER']} host={CONFIGURATION['PRACTICE_HOST']} password={CONFIGURATION['PRACTICE_PASS']} port={CONFIGURATION['PRACTICE_PORT']}"
+    connection_builder = connection_callback_builder(connection_type)
     try:
-        connection = psycopg2.connect(connection_string)
+        connection = connection_builder()
         connection.autocommit = True
         return connection
-    except psycopg2.DatabaseError as e:
+    except:
         print("Cannot connect to database.")
-        print(e)
 
 
 def execute(connection, statement, variables=None):
-    with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+    with connection.cursor() as cursor:
         cursor.execute(statement, variables)
         if cursor.pgresult_ptr is not None:
             return cursor.fetchall()

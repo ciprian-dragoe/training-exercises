@@ -1,12 +1,12 @@
 version: '3.8'
 services:
-  admin-db:
+  admin-db1:
     image: admin_db
     build:
       context: ./
       dockerfile: ./docker-services/admin-db/Dockerfile
     ports:
-      - ${ADMIN_PORT}:5432
+      - 1000:${ADMIN_PORT}
     volumes:
       - admin:/var/lib/postgresql/data
       - ./docker-services/admin-db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
@@ -26,12 +26,19 @@ services:
       context: ./
       dockerfile: ./docker-services/language-pg/Dockerfile
     ports:
-      - ${PRACTICE_PORT}:5432
+      - 1001:${PRACTICE_PORT}
     environment:
       POSTGRES_USER: ${PRACTICE_USER}
       POSTGRES_DB: ${PRACTICE_DBNAME}
       POSTGRES_PASSWORD: ${PRACTICE_PASS}
     command: ["echo", "### TURNED OFF WAITING FOR ADMIN TO START IT ###"]
+  admin-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1002:${ADMIN_PORT}
+    environment:
+      SA_PASSWORD: ${ADMIN_PASS}
+      ACCEPT_EULA: "Y"
   python-server:
     image: python_server
     build:
@@ -44,13 +51,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
+      ADMIN_SERVER_TYPE: ${ADMIN_SERVER_TYPE}
       ADMIN_HOST: ${ADMIN_HOST}
-      ADMIN_PORT: 5432
+      ADMIN_PORT: ${ADMIN_PORT}
       ADMIN_USER: ${ADMIN_USER}
       ADMIN_PASS: ${ADMIN_PASS}
       ADMIN_DBNAME: ${ADMIN_DBNAME}
+      PRACTICE_SERVER_TYPE: ${PRACTICE_HOST}
       PRACTICE_HOST: ${PRACTICE_HOST}
-      PRACTICE_PORT: 5432
+      PRACTICE_PORT: ${PRACTICE_PORT}
       PRACTICE_USER: ${PRACTICE_USER}
       PRACTICE_PASS: ${PRACTICE_PASS}
       PRACTICE_DBNAME: ${PRACTICE_DBNAME}
