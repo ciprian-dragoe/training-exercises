@@ -39,9 +39,4 @@ initialize_app()
 
 
 if __name__ == "__main__":
-    if CONFIGURATION["FLASK_ENV"] == "development":
-        print('=================')
-        app.run(debug=True, port=80, host='0.0.0.0')
-    else:
-        print('+++++++++++++')
-        app.run(port=80, host='0.0.0.0')
+    app.run(debug=CONFIGURATION["FLASK_ENV"] == "development", port=80, host='0.0.0.0')

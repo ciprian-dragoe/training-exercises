@@ -6,10 +6,10 @@ services:
       context: ./
       dockerfile: ./docker-services/admin-db/Dockerfile
     ports:
-      - ${ADMIN_PORT}:5432
+      - 1000:${ADMIN_PORT}
     volumes:
       - admin:/var/lib/postgresql/data
-      - ./docker-services/admin-db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker-services/admin-db/scripts/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${ADMIN_USER}
       POSTGRES_PASSWORD: ${ADMIN_PASS}
@@ -26,7 +26,7 @@ services:
       context: ./
       dockerfile: ./docker-services/language-pg/Dockerfile
     ports:
-      - ${PRACTICE_PORT}:5432
+      - 1001:${PRACTICE_PORT}
     environment:
       POSTGRES_USER: ${PRACTICE_USER}
       POSTGRES_DB: ${PRACTICE_DBNAME}
@@ -44,13 +44,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
+      ADMIN_SERVER_TYPE: ${ADMIN_SERVER_TYPE}
       ADMIN_HOST: ${ADMIN_HOST}
-      ADMIN_PORT: 5432
+      ADMIN_PORT: ${ADMIN_PORT}
       ADMIN_USER: ${ADMIN_USER}
       ADMIN_PASS: ${ADMIN_PASS}
       ADMIN_DBNAME: ${ADMIN_DBNAME}
+      PRACTICE_SERVER_TYPE: ${PRACTICE_SERVER_TYPE}
       PRACTICE_HOST: ${PRACTICE_HOST}
-      PRACTICE_PORT: 5432
+      PRACTICE_PORT: ${PRACTICE_PORT}
       PRACTICE_USER: ${PRACTICE_USER}
       PRACTICE_PASS: ${PRACTICE_PASS}
       PRACTICE_DBNAME: ${PRACTICE_DBNAME}
