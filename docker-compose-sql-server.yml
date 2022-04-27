@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  admin-db:
+  admin-db1:
     image: admin_db
     build:
       context: ./
@@ -32,6 +32,13 @@ services:
       POSTGRES_DB: ${PRACTICE_DBNAME}
       POSTGRES_PASSWORD: ${PRACTICE_PASS}
     command: ["echo", "### TURNED OFF WAITING FOR ADMIN TO START IT ###"]
+  admin-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1002:${ADMIN_PORT}
+    environment:
+      SA_PASSWORD: ${ADMIN_PASS}
+      ACCEPT_EULA: "Y"
   python-server:
     image: python_server
     build:

@@ -12,33 +12,42 @@ class DbConnection(Enum):
     language_pg = 2
 
 
-def connection_callback_builder(connection_type):
-    if connection_type == DbConnection.admin:
-        if CONFIGURATION["ADMIN_SERVER_TYPE"] == "sql-server":
-            connection_service = pymssql
-        else:
-            connection_service = psycopg2
-        return lambda: connection_service.connect(server=CONFIGURATION['ADMIN_HOST'], port=CONFIGURATION['ADMIN_PORT'], user=CONFIGURATION['ADMIN_USER'], password=CONFIGURATION['ADMIN_PASS'], database=CONFIGURATION['ADMIN_DBNAME'])
-    else:
-        if CONFIGURATION["PRACTICE_SERVER_TYPE"] == "sql-server":
-            connection_service = pymssql
-        else:
-            connection_service = psycopg2
-        return lambda: connection_service.connect(server=CONFIGURATION['PRACTICE_HOST'], port=CONFIGURATION['PRACTICE_PORT'], user=CONFIGURATION['PRACTICE_USER'], password=CONFIGURATION['PRACTICE_PASS'], database=CONFIGURATION['PRACTICE_DBNAME'])
-
-
-def get_db_connection(connection_type):
-    connection_builder = connection_callback_builder(connection_type)
+def execute_sql_server_query(host, port, user, password, db, statement, variables):
     try:
-        connection = connection_builder()
-        connection.autocommit = True
-        return connection
+        connection = pymssql.connect(server=host, port=port, user=user, password=password, database=db)
+        with connection.cursor() as cursor:
+            cursor.execute(statement, variables)
+            return cursor.fetchall()
     except:
         print("Cannot connect to database.")
 
 
-def execute(connection, statement, variables=None):
-    with connection.cursor() as cursor:
-        cursor.execute(statement, variables)
-        if cursor.pgresult_ptr is not None:
-            return cursor.fetchall()
+def execute_postgres_query(host, port, user, password, db, statement, variables):
+    try:
+        connection = psycopg2.connect(database=db, user=user, password=password, host=host, port=port)
+        connection.autocommit = True
+        with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            cursor.execute(statement, variables)
+            if cursor.pgresult_ptr is not None:
+                return cursor.fetchall()
+    except:
+        print("Cannot connect to database.")
+
+
+CONNECTION_HANDLER_FACTORY = {
+    "sql-server": execute_sql_server_query,
+    "postgres": execute_postgres_query,
+}
+
+
+def execute(connection_type, statement, variables=None):
+    if connection_type == DbConnection.admin:
+        connection_handler = CONNECTION_HANDLER_FACTORY[CONFIGURATION["ADMIN_SERVER_TYPE"]]
+        return connection_handler(CONFIGURATION['ADMIN_HOST'], CONFIGURATION['ADMIN_PORT'],
+                                  CONFIGURATION['ADMIN_USER'], CONFIGURATION['ADMIN_PASS'],
+                                  CONFIGURATION['ADMIN_DBNAME'], statement, variables)
+    elif connection_type == DbConnection.language_pg:
+        connection_handler = CONNECTION_HANDLER_FACTORY[CONFIGURATION["PRACTICE_SERVER_TYPE"]]
+        return connection_handler(CONFIGURATION['PRACTICE_HOST'], CONFIGURATION['PRACTICE_PORT'],
+                                  CONFIGURATION['PRACTICE_USER'], CONFIGURATION['PRACTICE_PASS'],
+                                  CONFIGURATION['PRACTICE_DBNAME'], statement, variables)
