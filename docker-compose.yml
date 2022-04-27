@@ -9,7 +9,7 @@ services:
       - 1000:${ADMIN_PORT}
     volumes:
       - admin:/var/lib/postgresql/data
-      - ./docker-services/admin-db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker-services/admin-db/scripts/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       POSTGRES_USER: ${ADMIN_USER}
       POSTGRES_PASSWORD: ${ADMIN_PASS}

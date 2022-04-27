@@ -1,19 +1,5 @@
 version: '3.8'
 services:
-  admin-db1:
-    image: admin_db
-    build:
-      context: ./
-      dockerfile: ./docker-services/admin-db/Dockerfile
-    ports:
-      - 1000:${ADMIN_PORT}
-    volumes:
-      - admin:/var/lib/postgresql/data
-      - ./docker-services/admin-db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    environment:
-      POSTGRES_USER: ${ADMIN_USER}
-      POSTGRES_PASSWORD: ${ADMIN_PASS}
-      POSTGRES_DB: ${ADMIN_DBNAME}
   language-py:
     image: language_py
     build:
