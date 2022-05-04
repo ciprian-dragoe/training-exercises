@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style/code-area.css') }}"/>
     <link rel="stylesheet" href="/static/starter-projects/{{ template }}/index.css"/>
+    <link rel="stylesheet" href="/static/style/project-template.css"/>
 
     <script type="module" src="{{ url_for('static', filename='js/codeContainer/main.js') }}" defer></script>
     <script src="/static/starter-projects/{{ template }}/index.js" defer></script>
@@ -20,5 +21,6 @@
 </head>
 <body>
     {% block body_content %}{% endblock %}
+    <img id="logo" src="/static/images/logo.jpg">
 </body>
 </html>

@@ -1,0 +1,10 @@
+body {
+  font-family: "Source Sans Pro";
+}
+
+#logo {
+  width: 13%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
