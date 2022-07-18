@@ -15,9 +15,11 @@ def delete(project_id):
 def delete_all():
     connection = database.get_db_connection(database.DbConnection.admin)
     return database.execute(connection, f"""
-        update projects set entry_point_file_id = Null;
+        update projects set entry_point_file_id = null;
         delete from files;
-        delete from projects;""")
+        delete from projects;
+        delete from users;
+""")
 
 
 def get(user_id, project_id):

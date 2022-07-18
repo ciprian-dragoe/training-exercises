@@ -1,3 +1,4 @@
+import services.projects
 from services import users
 from services import projects
 from services import docker
@@ -30,7 +31,7 @@ def get_files(project_id):
         return response, 404
 
 
-@api_admin.route("/projects", methods=["Delete"])
+@api_admin.route("/projects", methods=["DELETE"])
 def delete_projects():
     if "is-admin-logged" in session.keys():
         result = projects.delete_all()
@@ -61,6 +62,8 @@ def set_containers_state():
     else:
         response = jsonify({'message': 'Not authorized'})
         return response, 404
+
+
 
 
 # todo - add extra wrapper for every admin call to verify credentials

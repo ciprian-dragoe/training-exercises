@@ -58,7 +58,3 @@ def write_file(user, exercise_number, extension, content):
 def read_file(file_path):
     with open(file_path, "r") as file:
         return file.read()
-
-
-def delete():
-    projects.delete_all()
