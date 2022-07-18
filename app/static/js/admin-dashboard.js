@@ -58,10 +58,10 @@ function syncStarterProjects() {
 
 function setListenerLogoutButton() {
     const button = document.getElementById('logout')
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', async (e) => {
         e.preventDefault()
-        fetch('/api/admin/projects', { method: "DELETE" })
-        window.location.pathname = `/admin/logout`;
+        const response = await fetch('/api/admin/projects', { method: "DELETE" });
+	window.location.pathname = `/admin/logout`;
     })
 }
 
