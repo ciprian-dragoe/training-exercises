@@ -21,3 +21,10 @@ To login access the link `/admin/dashboard` by supplying the password  set in th
 3. Run the app on your local computer via `docker-compose up`
 4. Make your local host port 5000 (default dev port when running starting the app) available publicly `lt --port 5000`
 5. Copy the generated link by `lt`and send it to the students
+
+## ===> UPDATE: IT SEEMS LOCAL-TUNNEL SERVERS ARE DOWN, AN ALTERNATIVE IS NGROK
+1. Install `ngrok` from `https://ngrok.com/download`
+2. Create an account at `ngrok` and after login you will find somewhere in the page an api key (something similar to `ngrok config add-authtoken xxxxxxx`)
+3. Run the app on your local computer via `docker-compose up`
+4. Make your local host port 5000 (default dev port when running starting the app) available publicly `ngrok http 5000`
+5. Copy the generated link by `ngrok` and send it to the students
