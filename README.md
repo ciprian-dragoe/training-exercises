@@ -28,3 +28,4 @@ To login access the link `/admin/dashboard` by supplying the password  set in th
 3. Run the app on your local computer via `docker-compose up`
 4. Make your local host port 5000 (default dev port when running starting the app) available publicly `ngrok http 5000`
 5. Copy the generated link by `ngrok` and send it to the students
+6. Currently there is a CORS issue and the app will only run in the Chrome browser (in firefox fetch call fails)
