@@ -12,16 +12,18 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.jpg') }}" type="image/x-icon"/>
     </head>
 
-    <body>
-        <form>
-            <input
-                name="name"
-                placeholder="enter your name"
-                style="width: 200px"
-                minlength="1"
-            />
-            <select name="number" placeholder="enter the exercise number" id="starter-projects"></select>
-            <button type="submit">Go to exercise</button>
-        </form>
+    <body style="margin: 0; padding: 0">
+        <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+			<form>
+				<input
+					name="name"
+					placeholder="enter your name"
+					style="width: 200px; box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);"
+					minlength="1"
+				/>
+				<select name="number" placeholder="enter the exercise number" id="starter-projects" style="box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);"></select>
+				<button type="submit" style="box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);">Go to exercise</button>
+			</form>
+		</div>
     </body>
 </html>
